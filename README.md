@@ -47,6 +47,15 @@ Vue.use(IconsPlugin)
 
 vue add router
 
+Install firebase
+
+npm install firebase
+
+change main.js to add this code
+'''
+import firebase from "firebase";
+'''
+https://stackoverflow.com/questions/70445014/module-not-found-error-package-path-is-not-exported-from-package
 
 # Approach
  
@@ -77,3 +86,7 @@ https://commons.wikimedia.org/wiki/File:Rock-paper-scissors.svg
 https://www.delftstack.com/howto/javascript/select-a-random-element-from-an-array-in-javascript/
 
 https://bootstrap-vue.org/docs/components/layout
+
+https://learnvue.co/tutorials/vue-firebase-authentication  use next link to utilise firebase code in vue correctly
+
+https://firebase.google.com/docs/auth/web/start
