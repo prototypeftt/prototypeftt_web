@@ -90,3 +90,5 @@ https://bootstrap-vue.org/docs/components/layout
 https://learnvue.co/tutorials/vue-firebase-authentication  use next link to utilise firebase code in vue correctly
 
 https://firebase.google.com/docs/auth/web/start
+
+https://medium.com/google-cloud/guide-to-deploy-vue-js-app-to-google-app-engine-with-cloud-build-from-git-repository-256c3043155e
