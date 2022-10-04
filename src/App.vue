@@ -28,7 +28,8 @@
       window.addEventListener('loggedIn-localstorage-changed', (event) => {
         this.loggedIn = event.detail.storage;
         //alert("event info : " + this.loggedIn);
-      });   
+      });
+   
     },
     beforeCreate() {
       //alert('mounted loggedin value: ' + JSON.parse(localStorage.getItem('loggedIn')));

@@ -44,6 +44,9 @@
 
 
 <script>
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../main';
    
   export default {
     name: 'LoginUser',
@@ -88,7 +91,28 @@
     doRegister() {
        if (this.nameReg === "" || this.emailReg === "" || this.passwordReg === "" || this.confirmReg === "") {
           this.emptyFields = true;
-       } else {
+       } else {         
+         
+         createUserWithEmailAndPassword(auth, this.emailReg, this.passwordReg)
+         .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log(user);
+            alert("You are now registered");
+            this.$router.push('dashboard');
+            
+            // ...
+         })
+         .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert("error"+errorCode+errorMessage);
+            console.log(errorCode);
+            console.log(errorMessage);
+            // ..
+         });
+
+         /*
          localStorage.name = this.nameReg;
          localStorage.email = this.emailReg;
          localStorage.password = this.passwordReg;
@@ -101,8 +125,8 @@
                storage: localStorage.getItem('loggedIn')
             }
             }));
-         this.$router.push('game');
-         
+         this.$router.push('dashboard');
+         */
        }
     },
 
