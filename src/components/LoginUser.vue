@@ -24,7 +24,7 @@ import * as firebaseui from 'firebaseui'
 import "firebaseui/dist/firebaseui.css";
 import firebaseConfig from '../helpers/firebaseConfig';
 
-import { getDatabase, child, get, set, ref } from "firebase/database";
+import { getDatabase, set, ref, get, child } from "firebase/database";
 //import { getDatabase, set, ref } from "firebase/database";
 
 // Initialize Firebase app
@@ -65,15 +65,16 @@ export default {
          // Check if there is a broker entry in the database.
          // if there is then do nothing
          // if there isn't then create one and prompt the broker to add more info
-         this.writeUserData(authResult.user.uid);
-         console.log(`brokers/${authResult.user.uid}` );
 
-       get(child(database, `brokers/${authResult.user.uid}`)).then((snapshot) => {
+         console.log(`brokers/${authResult.user.uid}`);
+
+         var dbref = ref(database, 'brokers/');
+         get(child(dbref, `${authResult.user.uid}`)).then((snapshot) => {
             if (snapshot.exists()) {
                console.log("broker exists in database" + snapshot.val());
             } else {
                console.log("No data available");
-               this.writeUserData(authResult.userId);
+               this.writeUserData(authResult.user.uid);
             }
          }).catch((error) => {
             console.error(error);
@@ -94,9 +95,10 @@ export default {
       writeUserData: function (userId) {
          //const db = getDatabase();
          set(ref(database, 'brokers/' + userId), {
-            premium: 'test',
-            institution: 'teest',
-            broker: true
+            "premium" : "0.00",
+            "institution" : "Lehmans",
+            "broker" : true,
+            "clients": {"uid1" : "nuID9ZUuqNOwWYAF88QXXVlDT7b2"}
          })
       },
 
