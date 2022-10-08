@@ -4,48 +4,70 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
       <!-- <div v-if="loggedIn"> -->
-        <router-link v-if="loggedIn" to="/logout">| Logout</router-link>
-       <!-- </div> -->
+      <router-link v-if="loggedIn" to="/logout"> | Logout</router-link>
+      <!-- </div> -->
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
 
-  var loggedIn;
-  
-  export default {
-    name: 'App',
-    data() {
-      return {
-        loggedIn,
-  
-      }
-    },
-    mounted() {
-      this.loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
-      window.addEventListener('loggedIn-localstorage-changed', (event) => {
-        this.loggedIn = event.detail.storage;
-        //alert("event info : " + this.loggedIn);
-      });
-   
-    },
-    beforeCreate() {
-      //alert('mounted loggedin value: ' + JSON.parse(localStorage.getItem('loggedIn')));
-      //loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
-      this.loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
-    },
-    beforeUpdate() {
-      /*alert('beforeUpdate() val: ' + this.loggedIn)
-      loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
-      alert('after beforeUpdate() val: ' + this.loggedIn)*/
-      this.loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+var loggedIn;
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      loggedIn,
+
     }
-  
+  },
+  mounted() {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      alert('user state changed logout' + user)
+      this.loggedIn = true;
+      //next()
+    } else {     
+
+        alert('user logout:' + auth.currentUser)
+        this.loggedIn = false;
+        //next({ path: '/' })
+        /* next({
+           //name: '/',
+           path: '/dashboar',
+         })*/
+      
+
+    /*this.loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
+    window.addEventListener('loggedIn-localstorage-changed', (event) => {
+      this.loggedIn = event.detail.storage;
+      //alert("event info : " + this.loggedIn);
+    });*/
+  }});
+  },
+  beforeCreate() {
+    //alert('mounted loggedin value: ' + JSON.parse(localStorage.getItem('loggedIn')));
+    //loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
+    //this.loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
+  },
+  beforeUpdate() {
+    /*alert('beforeUpdate() val: ' + this.loggedIn)
+    loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
+    alert('after beforeUpdate() val: ' + this.loggedIn)*/
+    //this.loggedIn = JSON.parse(localStorage.getItem('loggedIn'));
   }
-  
-  </script>
+
+}
+
+</script>
 
 <style>
 #app {

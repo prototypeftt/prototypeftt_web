@@ -57,6 +57,13 @@ import firebase from "firebase";
 '''
 https://stackoverflow.com/questions/70445014/module-not-found-error-package-path-is-not-exported-from-package
 
+
+Adding Firebase UI
+
+npm install firebaseui --save
+
+
+
 # Approach
  
  SPA (Single Page Application)
@@ -92,3 +99,12 @@ https://learnvue.co/tutorials/vue-firebase-authentication  use next link to util
 https://firebase.google.com/docs/auth/web/start
 
 https://medium.com/google-cloud/guide-to-deploy-vue-js-app-to-google-app-engine-with-cloud-build-from-git-repository-256c3043155e
+
+https://github.com/Abiola-Farounbi/VUE-authentication
+
+https://firebase.google.com/docs/auth/web/firebaseui
+
+https://www.thisdot.co/blog/firebase-for-user-authentication-in-vue-js
+
+read/write data
+https://www.youtube.com/watch?v=pP7quzFmWBY

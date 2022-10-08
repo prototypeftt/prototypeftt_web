@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <LoginUser msg="FTT Broker"/>
+    <LoginUser/>
   </div>
 </template>
 
