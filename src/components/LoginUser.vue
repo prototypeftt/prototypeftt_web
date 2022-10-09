@@ -28,7 +28,7 @@ import { getDatabase, set, ref, get, child } from "firebase/database";
 //import { getDatabase, set, ref } from "firebase/database";
 
 // Initialize Firebase app
-var app = firebase.initializeApp(firebaseConfig)
+var app = firebase.initializeApp(firebaseConfig);
 
 // Reference to database
 const database = getDatabase();
