@@ -1,28 +1,27 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-
-var firebaseConfig = {
-  apiKey: "YourConfigHere",
-  authDomain: "YourConfigHere",
-  projectId: "YourConfigHere",
-  storageBucket: "YourConfigHere",
-  messagingSenderId: "YourConfigHere",
-  appId: "YourConfigHere"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app);
-
 
 Vue.config.productionTip = false
 
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+// Import Bootstrap and BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
+
+
+
+//export { }
+
 new Vue({
   router,
+  created() {
+},
   render: h => h(App)
 }).$mount('#app')

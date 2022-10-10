@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import DashBoardView from '../views/DashBoardView.vue'
+
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 Vue.use(VueRouter)
 
@@ -8,15 +11,28 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: {
+      checkAuth: true
+    }
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: DashBoardView,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  }, {
+    path: '/logout',
+    name: 'LogoutView',
+    component: () => import(/* webpackChunkName: "logout" */ '../views/LogoutView.vue')
+    //component: LogoutView,
   }
 ]
 
@@ -24,6 +40,38 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+// Meta Handling
+
+
+const auth = getAuth();
+
+router.beforeEach((to, from, next) => {
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      alert('user state changed' + user)
+
+      next()
+    } else {
+      if (to.matched.some(record => record.meta.requiresAuth)) {
+
+        alert('user:' + auth.currentUser)
+        next({ path: '/' })
+        /* next({
+           //name: '/',
+           path: '/dashboar',
+         })*/
+      }
+      else {
+        next()
+      }
+    }
+  });
+
 })
 
 export default router
