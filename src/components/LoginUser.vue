@@ -86,7 +86,7 @@ export default {
       },
       // Note, bad credentials is not a sign-in failure
       signInAttempFailure(error) {
-         alert('Sign in failed. See dev console for error response')
+         console.log('Sign in failed. See dev console for error response')
          console.log('error', error)
       },
       firebaseUiShown: function () {

@@ -36,7 +36,7 @@ export default {
   mounted() {
 
     // Add the institutions to the database
-    alert('app view mounted');
+    console.log('app view mounted');
     this.writeInsitutionData(institutionsConfig);
 
     // Check if the user is logged in
@@ -47,12 +47,12 @@ export default {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        alert('user state changed logged in' + user)
+        console.log('user state changed logged in' + user)
         this.loggedIn = true;
 
       } else {
 
-        alert('user logout:' + auth.currentUser)
+        console.log('user logout:' + auth.currentUser)
         this.loggedIn = false;
 
       }
