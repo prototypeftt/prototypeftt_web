@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
     } else {
       if (to.matched.some(record => record.meta.requiresAuth)) {
 
-        alert('user:' + auth.currentUser)
+        console.log('user:' + auth.currentUser)
         next({ path: '/' })
         /* next({
            //name: '/',
