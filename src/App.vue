@@ -1,10 +1,27 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      <router-link v-if="loggedIn" to="/logout"> | Logout</router-link>
-    </nav>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-brand href="#">FTT Broker Portal</b-navbar-brand>
+      <nav>
+        <b-navbar-nav>
+          <b-nav-item v-if="!loggedIn" to="/">Home</b-nav-item> 
+          <b-nav-item v-if="!loggedIn" to="/about">About</b-nav-item> 
+          <b-nav-item v-if="loggedIn" to="/clients">Clients</b-nav-item>
+          <b-nav-item v-if="loggedIn" to="/ai-engine">AI</b-nav-item> 
+          <b-nav-item v-if="loggedIn" to="/inbox">Inbox</b-nav-item>
+          <b-nav-item-dropdown v-if="loggedIn" text="Reports" right>
+            <b-dropdown-item href="#">Shares</b-dropdown-item>
+            <b-dropdown-item href="#">Crypto</b-dropdown-item>
+          </b-nav-item-dropdown>          
+          <b-nav-item-dropdown v-if="loggedIn" text="User" right>
+            <b-dropdown-item href="#">Account</b-dropdown-item>
+            <b-dropdown-item href="#">Settings</b-dropdown-item>
+            <b-dropdown-item href="#">Alerts</b-dropdown-item>
+            <b-dropdown-item to="logout">Logout</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </nav>
+    </b-navbar>
     <router-view />
   </div>
 </template>
@@ -40,9 +57,9 @@ export default {
     this.writeInsitutionData(institutionsConfig);
 
     // Check if the user is logged in
-    
+
     const auth = getAuth();
-    
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
