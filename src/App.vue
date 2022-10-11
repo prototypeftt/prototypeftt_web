@@ -36,18 +36,18 @@ export default {
   mounted() {
 
     // Add the institutions to the database
-
+    alert('app view mounted');
     this.writeInsitutionData(institutionsConfig);
 
     // Check if the user is logged in
-
+    
     const auth = getAuth();
-
+    
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        alert('user state changed logout' + user)
+        alert('user state changed logged in' + user)
         this.loggedIn = true;
 
       } else {

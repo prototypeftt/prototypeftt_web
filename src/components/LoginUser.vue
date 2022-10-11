@@ -33,7 +33,7 @@ var app = firebase.initializeApp(firebaseConfig);
 // Reference to database
 const database = getDatabase();
 
-export default {
+export default {  
    name: 'LoginUser',
    props: {
    },
@@ -135,7 +135,7 @@ export default {
          }
       }
       // Initialize the FirebaseUI Widget using the Firebase app.
-      var ui = new firebaseui.auth.AuthUI(app.auth())
+      var ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(app.auth())
       // The start method will wait until the DOM is loaded.
 
       ui.start('#firebaseui-auth-container', firebaseConfigUI)
