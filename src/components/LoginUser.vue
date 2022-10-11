@@ -57,7 +57,7 @@ export default {
    methods: {
 
       signInAttempSuccessful(authResult, redirectUrl) {
-         alert('Sign in successfull. See dev console for authorization response')
+         console.log('Sign in successfull. See dev console for authorization response')
          console.log('authResult', authResult)
          console.log('redirectUrl', redirectUrl)
 
