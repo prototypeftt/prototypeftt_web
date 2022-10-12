@@ -112,3 +112,7 @@ https://www.youtube.com/watch?v=pP7quzFmWBY
 # Design Resources
 
 https://bootstrap-vue.org/docs/components/navbar#b-nav-item
+
+# Deployment Instructions
+
+https://cli.vuejs.org/guide/deployment.html
