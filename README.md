@@ -113,6 +113,8 @@ https://www.youtube.com/watch?v=pP7quzFmWBY
 
 https://bootstrap-vue.org/docs/components/navbar#b-nav-item
 
+https://bootstrap-vue.org/docs/components/modal#modal
+
 # Deployment Instructions
 
 https://cli.vuejs.org/guide/deployment.html

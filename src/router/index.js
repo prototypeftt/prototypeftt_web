@@ -54,6 +54,11 @@ router.beforeEach((to, from, next) => {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       //alert('user state changed' + user)
+      console.log('user signed in');
+      // check if this is first login for broker
+      // if it is then require additional info like institution and premium
+
+      
 
       next()
     } else {
