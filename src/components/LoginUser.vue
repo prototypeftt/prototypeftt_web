@@ -71,7 +71,7 @@ export default {
          var dbref = ref(database, 'brokers/');
          get(child(dbref, `${authResult.user.uid}`)).then((snapshot) => {
             if (snapshot.exists()) {
-               console.log("broker exists in database" + snapshot.val());
+               console.log("broker exists in database" );
             } else {
                console.log("No data available");
                this.writeUserData(authResult.user.uid);
@@ -98,7 +98,8 @@ export default {
             "premium" : "0.00",
             "institution" : "Lehmans",
             "broker" : true,
-            "clients": {"uid1" : "nuID9ZUuqNOwWYAF88QXXVlDT7b2"}
+            "clients" : {"uid1" : "nuID9ZUuqNOwWYAF88QXXVlDT7b2"},
+            "require_setup" : true
          })
       },
 
