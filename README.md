@@ -62,7 +62,8 @@ Adding Firebase UI
 
 npm install firebaseui --save
 
-
+Installing vuex 3 for vue 2
+npm install vuex@3.4.0 --save
 
 # Approach
  
