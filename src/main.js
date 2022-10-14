@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import Vuex from 'vuex'
 
 Vue.config.productionTip = false
 
@@ -15,7 +16,28 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
-//export { }
+// Use Vuex
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  },
+  actions: {
+  },
+  getters: {
+  },  
+  modules: {
+    
+  }
+})
+
+export default { store }
 
 new Vue({
   router,
