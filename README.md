@@ -121,4 +121,4 @@ https://bootstrap-vue.org/docs/components/modal#modal
 https://cli.vuejs.org/guide/deployment.html
 
 # Test Merge
-Test for auto deploy on new merge
+Test for auto deploy on new merge 30.10.2022
