@@ -45,7 +45,13 @@ export default {
    },
    data: () => {
       return {
-
+         name: '',
+        nameState: null,
+        submittedNames: [],
+        premium: '',
+        premiumState: null,
+        institution: '',
+        institutionState: null
       }
    },
    computed: {
@@ -55,6 +61,8 @@ export default {
       checkFormValidity() {
          const valid = this.$refs.form.checkValidity()
          this.nameState = valid
+         this.institutionState = valid
+         this.premiumState = valid
          return valid
       }, resetModal() {
          this.name = ''
