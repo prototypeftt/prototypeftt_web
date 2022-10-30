@@ -72,6 +72,8 @@ export default {
          get(child(dbref, `${authResult.user.uid}`)).then((snapshot) => {
             if (snapshot.exists()) {
                console.log("broker exists in database" );
+                        // do this last redirect to dashboard page
+               this.$router.push('dashboard');
             } else {
                console.log("No data available");
                this.writeUserData(authResult.user.uid);
@@ -81,7 +83,7 @@ export default {
          });
 
          // do this last redirect to dashboard page
-         this.$router.push('dashboard');
+         //this.$router.push('dashboard');
 
       },
       // Note, bad credentials is not a sign-in failure
@@ -99,9 +101,18 @@ export default {
             "institution" : "None",
             "name" : "No Name",
             "broker" : true,
-            "clients" : {"uid1" : "nuID9ZUuqNOwWYAF88QXXVlDT7b2"},
+            "clients" : {"sdlY3iaeEKe0707EMcFVWT4fmNO2" : "sdlY3iaeEKe0707EMcFVWT4fmNO2", "ufpgYfPEWpOKdz3PjkOnsrOWL983" : "ufpgYfPEWpOKdz3PjkOnsrOWL983",},
             "require_setup" : true
+         }).then(() => {
+         // Data saved successfully!
+         console.log("broker data saved async");
+                  // do this last redirect to dashboard page
+                  this.$router.push('dashboard');
          })
+         .catch((error) => {
+         // The write failed...
+         console.log("error" + error);
+         });
       },
 
    },
