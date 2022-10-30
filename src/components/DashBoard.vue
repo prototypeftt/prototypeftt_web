@@ -127,11 +127,11 @@ export default {
       get(child(dbref, `/`)).then((snapshot) => {
          if (snapshot.exists()) {
             //console.log("institutions exist " + snapshot.val());
-            this.institutionList = snapshot.val();
-            /*snapshot.forEach(
-            this.institutionList.push({ value: snapshot.val(), text: snapshot.val() });
-              console.log("insti");
-            );*/
+            //this.institutionList = snapshot.val();
+            snapshot.forEach( item => {this.institutionList.push({ value: item.val(), text: item.val() });}
+           // this.institutionList.push({ value: snapshot.val(), text: snapshot.val() });
+            //  console.log("insti");
+            );
          } else {
             console.log("No institution data available");
             //this.writeUserData(auth.currentUser.uid);
