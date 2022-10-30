@@ -96,7 +96,8 @@ export default {
          //const db = getDatabase();
          set(ref(database, 'brokers/' + userId), {
             "premium" : "0.00",
-            "institution" : "Lehmans",
+            "institution" : "None",
+            "name" : "No Name",
             "broker" : true,
             "clients" : {"uid1" : "nuID9ZUuqNOwWYAF88QXXVlDT7b2"},
             "require_setup" : true

@@ -89,7 +89,7 @@ export default {
       institutionsConfig.forEach(obj => {
         Object.entries(obj).forEach(([key, value]) => {
           //console.log(`${key} ${value}`);
-          institutions += '"' + key + '" : ' + value + ',';
+          institutions += '"' + key + '" : "' + value + '",';
         });
       });
 

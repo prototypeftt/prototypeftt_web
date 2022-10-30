@@ -110,6 +110,8 @@ https://www.thisdot.co/blog/firebase-for-user-authentication-in-vue-js
 read/write data
 https://www.youtube.com/watch?v=pP7quzFmWBY
 
+https://firebase.google.com/docs/database/web/read-and-write#update_specific_fields
+
 # Design Resources
 
 https://bootstrap-vue.org/docs/components/navbar#b-nav-item
