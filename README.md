@@ -110,6 +110,10 @@ https://www.thisdot.co/blog/firebase-for-user-authentication-in-vue-js
 read/write data
 https://www.youtube.com/watch?v=pP7quzFmWBY
 
+https://firebase.google.com/docs/database/web/read-and-write#update_specific_fields
+
+https://firebase.google.com/docs/database/android/lists-of-data?authuser=0#filtering_data
+
 # Design Resources
 
 https://bootstrap-vue.org/docs/components/navbar#b-nav-item
@@ -121,4 +125,4 @@ https://bootstrap-vue.org/docs/components/modal#modal
 https://cli.vuejs.org/guide/deployment.html
 
 # Test Merge
-Test for auto deploy on new merge 30.10.2022
+Test for auto deploy on new merge 30.10.2022 #1

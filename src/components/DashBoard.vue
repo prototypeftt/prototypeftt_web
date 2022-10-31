@@ -12,7 +12,7 @@
                <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
             </b-form-group>
             <b-form-group label="Financial Institution" label-for="institution-input" invalid-feedback="Institution required" :state="institutionState">
-               <b-form-input id="institution-input" v-model="institution" :state="institutionState" required></b-form-input>
+               <b-form-select id="institution-input" v-model="institution" :options="institutionList" :state="institutionState" required></b-form-select>
             </b-form-group>
             <b-form-group label="Premium Charged" label-for="premium-input" invalid-feedback="Premium required" :state="premiumState">
                <b-form-input id="premium-input" v-model="premium" :state="premiumState" required></b-form-input>
@@ -29,7 +29,7 @@
 
 import { getAuth } from "firebase/auth";
 //import firebase from 'firebase/compat/app';
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, get, child, update } from "firebase/database";
 
 const auth = getAuth();
 
@@ -51,7 +51,8 @@ export default {
         premium: '',
         premiumState: null,
         institution: '',
-        institutionState: null
+        institutionState: null,
+        institutionList: []
       }
    },
    computed: {
@@ -65,8 +66,7 @@ export default {
          this.premiumState = valid
          return valid
       }, resetModal() {
-         this.name = ''
-         this.nameState = null
+
       }, handleOk(bvModalEvent) {
          // Prevent modal from closing
          bvModalEvent.preventDefault()
@@ -78,12 +78,20 @@ export default {
             return
          }
          // Push the name to submitted names
-         this.submittedNames.push(this.name)
+         //this.submittedNames.push(this.name)
+         this.writeUserData(auth.currentUser.uid);
          // Hide the modal manually
          this.$nextTick(() => {
-            this.$bvModal.hide('modal-prevent-closing')
+            this.$bvModal.hide('modal-setup')
          })
-      }
+      }, writeUserData: function (userId) {
+         const updates = {};
+         updates['/brokers/' + userId + '/premium'] = this.premium;
+         updates['/brokers/' + userId + '/name'] = this.name;
+         updates['/brokers/' + userId + '/institution'] = this.institution;
+         updates['/brokers/' + userId + '/require_setup'] = false;
+         update(ref(database), updates);
+      },
 
    },
    watch: {
@@ -108,6 +116,23 @@ export default {
 
          } else {
             console.log("No broker data available");
+            //this.writeUserData(auth.currentUser.uid);
+         }
+      }).catch((error) => {
+         console.error(error);
+      });
+
+      dbref = ref(database, 'institutions/');
+      get(child(dbref, `/`)).then((snapshot) => {
+         if (snapshot.exists()) {
+            //console.log("institutions exist " + snapshot.val());
+            //this.institutionList = snapshot.val();
+            snapshot.forEach( item => {this.institutionList.push({ value: item.val(), text: item.val() });}
+           // this.institutionList.push({ value: snapshot.val(), text: snapshot.val() });
+            //  console.log("insti");
+            );
+         } else {
+            console.log("No institution data available");
             //this.writeUserData(auth.currentUser.uid);
          }
       }).catch((error) => {

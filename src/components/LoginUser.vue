@@ -72,6 +72,8 @@ export default {
          get(child(dbref, `${authResult.user.uid}`)).then((snapshot) => {
             if (snapshot.exists()) {
                console.log("broker exists in database" );
+                        // do this last redirect to dashboard page
+               this.$router.push('dashboard');
             } else {
                console.log("No data available");
                this.writeUserData(authResult.user.uid);
@@ -81,7 +83,7 @@ export default {
          });
 
          // do this last redirect to dashboard page
-         this.$router.push('dashboard');
+         //this.$router.push('dashboard');
 
       },
       // Note, bad credentials is not a sign-in failure
@@ -96,11 +98,21 @@ export default {
          //const db = getDatabase();
          set(ref(database, 'brokers/' + userId), {
             "premium" : "0.00",
-            "institution" : "Lehmans",
+            "institution" : "None",
+            "name" : "No Name",
             "broker" : true,
-            "clients" : {"uid1" : "nuID9ZUuqNOwWYAF88QXXVlDT7b2"},
+            "clients" : ["kyg7MadtkiaklY8qfzDe1CxtDR73", "nVfSoiQK9EexBq1JvXPACbqwk4x1"],
             "require_setup" : true
+         }).then(() => {
+         // Data saved successfully!
+         console.log("broker data saved async");
+                  // do this last redirect to dashboard page
+                  this.$router.push('dashboard');
          })
+         .catch((error) => {
+         // The write failed...
+         console.log("error" + error);
+         });
       },
 
    },
