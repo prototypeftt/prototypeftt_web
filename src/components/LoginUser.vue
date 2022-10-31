@@ -101,7 +101,7 @@ export default {
             "institution" : "None",
             "name" : "No Name",
             "broker" : true,
-            "clients" : {"sdlY3iaeEKe0707EMcFVWT4fmNO2" : "sdlY3iaeEKe0707EMcFVWT4fmNO2", "ufpgYfPEWpOKdz3PjkOnsrOWL983" : "ufpgYfPEWpOKdz3PjkOnsrOWL983",},
+            "clients" : ["kyg7MadtkiaklY8qfzDe1CxtDR73", "nVfSoiQK9EexBq1JvXPACbqwk4x1"],
             "require_setup" : true
          }).then(() => {
          // Data saved successfully!

@@ -66,8 +66,7 @@ export default {
          this.premiumState = valid
          return valid
       }, resetModal() {
-         this.name = ''
-         this.nameState = null
+
       }, handleOk(bvModalEvent) {
          // Prevent modal from closing
          bvModalEvent.preventDefault()

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DashBoardView from '../views/DashBoardView.vue'
+import ClientsView from '../views/ClientsView.vue'
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -20,6 +21,13 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: DashBoardView,
+    meta: {
+      requiresAuth: true
+    }
+  },  {
+    path: '/clients',
+    name: 'clientsView',
+    component: ClientsView,
     meta: {
       requiresAuth: true
     }
@@ -56,9 +64,7 @@ router.beforeEach((to, from, next) => {
       //alert('user state changed' + user)
       console.log('user signed in');
       // check if this is first login for broker
-      // if it is then require additional info like institution and premium
-
-      
+      // if it is then require additional info like institution and premium      
 
       next()
     } else {
