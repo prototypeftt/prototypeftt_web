@@ -61,6 +61,10 @@ export default {
          console.log('authResult', authResult)
          console.log('redirectUrl', redirectUrl)
 
+         // temp method call to create client data
+         this.writeClientData("nVfSoiQK9EexBq1JvXPACbqwk4x1");
+         this.writeClientData("kyg7MadtkiaklY8qfzDe1CxtDR73");
+
          // Do what you wish with authResult... save to session, cookie, etc.
          // Check if there is a broker entry in the database.
          // if there is then do nothing
@@ -84,6 +88,8 @@ export default {
 
          // do this last redirect to dashboard page
          //this.$router.push('dashboard');
+
+
 
       },
       // Note, bad credentials is not a sign-in failure
@@ -112,6 +118,25 @@ export default {
          .catch((error) => {
          // The write failed...
          console.log("error" + error);
+         });
+      },writeClientData: function (uuid) {
+         //const db = getDatabase();
+         set(ref(database, 'clients/'+uuid), {
+            "name" : "No Name",
+            "broker" : true,
+            "direct" : false,
+            "shares" : [{"shareId": "kyg7MadtkiaklY8qfzDe1CxtDR73","price" : "10.00", "qty" : "100"}, {"shareId": "nVfSoiQK9EexBq1JvXPACbqwk4x1","price" : "0.00", "qty" : "100"}],
+            "crypto" : [{"cryptoId": "kyg7MadtkiaklY8qfzDe1CxtDR73","price" : "20.00", "qty" : "100"}, {"cryptoId": "nVfSoiQK9EexBq1JvXPACbqwk4x1","price" : "0.00", "qty" : "100"}],
+            "require_setup" : true
+         }).then(() => {
+         // Data saved successfully!
+         console.log("client data saved async");
+                  // do this last redirect to dashboard page
+                  //this.$router.push('dashboard');
+         })
+         .catch((error) => {
+         // The write failed...
+         console.log("error client data" + error);
          });
       },
 
