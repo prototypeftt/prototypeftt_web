@@ -125,8 +125,12 @@ export default {
             "name" : "No Name",
             "broker" : true,
             "direct" : false,
-            "shares" : [{"shareId": "kyg7MadtkiaklY8qfzDe1CxtDR73","price" : "10.00", "qty" : "100"}, {"shareId": "nVfSoiQK9EexBq1JvXPACbqwk4x1","price" : "0.00", "qty" : "100"}],
-            "crypto" : [{"cryptoId": "kyg7MadtkiaklY8qfzDe1CxtDR73","price" : "20.00", "qty" : "100"}, {"cryptoId": "nVfSoiQK9EexBq1JvXPACbqwk4x1","price" : "0.00", "qty" : "100"}],
+            "shares" : [{"shareId": "share 1","price" : "10.00", "qty" : "100"}, 
+            {"shareId": "share 2","price" : "0.00", "qty" : "100"},
+            {"shareId": "share 3","price" : "0.00", "qty" : "100"},
+            {"shareId": "share 4","price" : "0.00", "qty" : "100"},
+            {"shareId": "share 5","price" : "0.00", "qty" : "100"}],
+            "crypto" : [{"cryptoId": "crypto 1","price" : "20.00", "qty" : "100"}, {"cryptoId": "crypto 2","price" : "0.00", "qty" : "100"}],
             "require_setup" : true
          }).then(() => {
          // Data saved successfully!
