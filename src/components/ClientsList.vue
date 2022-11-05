@@ -8,17 +8,43 @@
                {{item}}
             </th>
          </tr>
+         
+            <tr v-for="item in items" :key="item.uuid" >
+               <td >{{item.uuid}}</td>
+               <td>{{item.broker}}</td>
+               <td>{{item.name}}</td>
+               <td>{{item.direct}}</td>
+               
+               <td>
+               <table>
+                  <tr><th v-for="item in assetFields" :key="item">
+                  {{item}}
+                  </th></tr>
+                  <tr v-for="(value, key, index) in item.cryptos" :key="`crypto-${ key }-${ index }`">
+                     <td>{{value.child("cryptoId").val()}}</td>
+                     <td>{{value.child("cryptoName").val()}}</td>
+                     <td>{{value.child("price").val()}}</td>
+                     <td>{{value.child("qty").val()}}</td>                  
+                  </tr>
 
-         <tr v-for="item in items" :key="item.uuid">
-            <td>{{item.uuid}}</td>
-            <td>{{item.broker}}</td>
-            <td>{{item.name}}</td>
-            <td>{{item.direct}}</td>
-            <td>{{item.crypto}}</td>
-            <td>{{item.shares}}</td>
+               </table>
+            </td>
+            <td>
+               <table>
+                  <tr><th v-for="item in assetFields" :key="item">
+                  {{item}}
+                  </th></tr>
+                  <tr v-for="(value, key, index) in item.shares" :key="`shares-${ key }-${ index }`">  
+                     <td>{{value.child("shareId").val()}}</td>
+                     <td>{{value.child("shareName").val()}}</td>
+                     <td>{{value.child("price").val()}}</td>
+                     <td>{{value.child("qty").val()}}</td>
+                  </tr>
+               </table>
+            </td>
 
-         </tr>
-
+            </tr>
+         
       </table>
    </div>
 
@@ -45,14 +71,27 @@ export default {
         clientList: [],
         items: [],
         fields: ['uuid','broker','name','direct','crypto','shares'],
-        crypto: [],
-        shares: []  
+        assetFields: ['ID','Name','Price','Qty'],
+        cryptos: [],
+        shares: []
       }
    },
    computed: {
-
+      
    },
    methods: {
+      getCrypto(obj){
+         //console.log("length:" + obj.length);
+         //console.log("crypto name:" + obj[0].crypto.cryptoName);
+
+         //console.log(obj[0].val);
+
+         const map = new Map(Object.entries(obj));
+         const obj1 = Object.fromEntries(map);
+         //obj1.child("cryptos").forEach( item => {console.log(item)});
+         //console.log(obj1);
+         return obj1;
+      },
        writeUserData: function (userId) {
          const updates = {};
          updates['/brokers/' + userId + '/premium'] = this.premium;
@@ -67,29 +106,31 @@ export default {
                get(child(dbref, item)).then((snapshot) => {
                if (snapshot.exists()) {
 
-                  snapshot.child("crypto").forEach( item => {this.crypto.push(item)});
-
+                  snapshot.child("cryptos").forEach( item => {this.cryptos.push(item);});
+                  
                   //var cryptoField='';
 
                   //this.crypto.forEach(item => {cryptoField=item.val()});
 
-                  console.log("crypto:" + this.crypto.length);
+                  //console.log("crypto:" + this.cryptos.length);
                   snapshot.child("shares").forEach( item => {this.shares.push(item)});
-                  console.log("shares length :" + this.shares.length);
-
+                  //console.log("shares length :" + this.shares.length);
 
                   this.items.push({
                      uuid:uuid,
                      broker:snapshot.child("broker").val(),
                      name:snapshot.child("name").val(),
                      direct:snapshot.child("direct").val(),
-                     crypto:this.crypto,
+                     //cryptos:Array(this.cryptos),
+                     cryptos:this.cryptos,
                      //crypto:cryptoField,
                      shares:this.shares
                   });
                   
-                  this.crypto=[];
+                  this.cryptos=[];
                   this.shares=[];
+
+                  //console.log("array2" + JSON.stringify(this.items));
         
                } else {
                   console.log("No client data available");
@@ -136,8 +177,12 @@ export default {
 
 </script>
 
-
-
 <style scoped>
-
+table, th, td {
+  border: 1px solid black;
+  margin: 5px;
+  padding-left: 5px;
+  padding: 5px;
+  vertical-align:top;
+}  
 </style>
