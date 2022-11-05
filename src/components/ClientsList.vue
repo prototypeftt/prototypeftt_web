@@ -80,18 +80,6 @@ export default {
       
    },
    methods: {
-      getCrypto(obj){
-         //console.log("length:" + obj.length);
-         //console.log("crypto name:" + obj[0].crypto.cryptoName);
-
-         //console.log(obj[0].val);
-
-         const map = new Map(Object.entries(obj));
-         const obj1 = Object.fromEntries(map);
-         //obj1.child("cryptos").forEach( item => {console.log(item)});
-         //console.log(obj1);
-         return obj1;
-      },
        writeUserData: function (userId) {
          const updates = {};
          updates['/brokers/' + userId + '/premium'] = this.premium;
@@ -184,5 +172,6 @@ table, th, td {
   padding-left: 5px;
   padding: 5px;
   vertical-align:top;
+  table-layout: auto;
 }  
 </style>

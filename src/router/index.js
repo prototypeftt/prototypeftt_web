@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DashBoardView from '../views/DashBoardView.vue'
 import ClientsView from '../views/ClientsView.vue'
+import AIView from '../views/AIView.vue'
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -28,6 +29,13 @@ const routes = [
     path: '/clients',
     name: 'clientsView',
     component: ClientsView,
+    meta: {
+      requiresAuth: true
+    }
+  },{
+    path: '/aiengine',
+    name: 'AIView',
+    component: AIView,
     meta: {
       requiresAuth: true
     }
