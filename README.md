@@ -114,6 +114,10 @@ https://firebase.google.com/docs/database/web/read-and-write#update_specific_fie
 
 https://firebase.google.com/docs/database/android/lists-of-data?authuser=0#filtering_data
 
+# Reporting Tool
+
+https://www.grapecity.com/activereportsjs/vue-reporting-tool
+
 # Design Resources
 
 https://bootstrap-vue.org/docs/components/navbar#b-nav-item
