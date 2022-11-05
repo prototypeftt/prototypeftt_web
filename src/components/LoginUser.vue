@@ -125,12 +125,12 @@ export default {
             "name" : "No Name",
             "broker" : true,
             "direct" : false,
-            "shares" : [{"shareId": "share 1","price" : "10.00", "qty" : "100"}, 
-            {"shareId": "share 2","price" : "0.00", "qty" : "100"},
-            {"shareId": "share 3","price" : "0.00", "qty" : "100"},
-            {"shareId": "share 4","price" : "0.00", "qty" : "100"},
-            {"shareId": "share 5","price" : "0.00", "qty" : "100"}],
-            "crypto" : [{"cryptoId": "crypto 1","price" : "20.00", "qty" : "100"}, {"cryptoId": "crypto 2","price" : "0.00", "qty" : "100"}],
+            "shares" : [{"shareId": "share 1","shareName":"Tesla","price" : "10.00", "qty" : "100"}, 
+            {"shareId": "share 2","shareName":"Twitter","price" : "0.00", "qty" : "100"},
+            {"shareId": "share 3","shareName":"SpaceX","price" : "0.00", "qty" : "100"},
+            {"shareId": "share 4","shareName":"Meta","price" : "0.00", "qty" : "100"},
+            {"shareId": "share 5","shareName":"Microsoft","price" : "0.00", "qty" : "100"}],
+            "cryptos" : [{"cryptoId":"crypto 1", "cryptoName":"Doge","price":"20.00","qty":"100"},{"cryptoId":"crypto 2","cryptoName":"Bitcoin","price":"0.00","qty":"100"}],
             "require_setup" : true
          }).then(() => {
          // Data saved successfully!
