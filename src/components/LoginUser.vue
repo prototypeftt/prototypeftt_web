@@ -64,6 +64,7 @@ export default {
          // temp method call to create client data
          this.writeClientData("nVfSoiQK9EexBq1JvXPACbqwk4x1");
          this.writeClientData("kyg7MadtkiaklY8qfzDe1CxtDR73");
+         this.writeMessages(authResult.user.uid);
 
          // Do what you wish with authResult... save to session, cookie, etc.
          // Check if there is a broker entry in the database.
@@ -119,7 +120,30 @@ export default {
          // The write failed...
          console.log("error" + error);
          });
-      },writeClientData: function (uuid) {
+      },writeMessages: function(uuid){
+         set(ref(database, 'messages/'+uuid), [{
+            "uuid" : "No sender uuid",
+            "name" : "sender name",
+            "message" : "1 test message from sender"},{
+            "uuid" : "No sender uuid",
+            "name" : "sender name",
+            "message" : "2 test message from sender"},{
+            "uuid" : "No sender uuid",
+            "name" : "sender name",
+            "message" : "3 test message from sender"}],
+         ).then(() => {
+         // Data saved successfully!
+         console.log("client data saved async");
+                  // do this last redirect to dashboard page
+                  //this.$router.push('dashboard');
+         })
+         .catch((error) => {
+         // The write failed...
+         console.log("error client data" + error);
+         });
+
+      }, 
+      writeClientData: function (uuid) {
          //const db = getDatabase();
          set(ref(database, 'clients/'+uuid), {
             "name" : "No Name",
