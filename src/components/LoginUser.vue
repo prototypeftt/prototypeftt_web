@@ -64,7 +64,7 @@ export default {
          // temp method call to create client data
          this.writeClientData("nVfSoiQK9EexBq1JvXPACbqwk4x1");
          this.writeClientData("kyg7MadtkiaklY8qfzDe1CxtDR73");
-         this.writeMessages(authResult.user.uid);
+         //this.writeMessages(authResult.user.uid);
 
          // Do what you wish with authResult... save to session, cookie, etc.
          // Check if there is a broker entry in the database.
