@@ -14,9 +14,8 @@
             <b-dropdown-item href="#">Crypto</b-dropdown-item>
           </b-nav-item-dropdown>          
           <b-nav-item-dropdown v-if="loggedIn" text="User" right>
-            <b-dropdown-item href="#">Account</b-dropdown-item>
-            <b-dropdown-item href="#">Settings</b-dropdown-item>
-            <b-dropdown-item href="#">Alerts</b-dropdown-item>
+            <b-dropdown-item href="settings">Settings</b-dropdown-item>
+            <b-dropdown-item href="alerts">Alerts</b-dropdown-item>
             <b-dropdown-item to="logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

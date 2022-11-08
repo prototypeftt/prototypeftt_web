@@ -5,6 +5,7 @@ import DashBoardView from '../views/DashBoardView.vue'
 import ClientsView from '../views/ClientsView.vue'
 import AIView from '../views/AIView.vue'
 import InboxView from '../views/InboxView.vue'
+import UserSettingsView from '../views/UserSettingsView.vue'
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -44,6 +45,13 @@ const routes = [
     path: '/inbox',
     name: 'InboxView',
     component: InboxView,
+    meta: {
+      requiresAuth: true
+    }
+  },{
+    path: '/settings',
+    name: 'UserSettingsView',
+    component: UserSettingsView,
     meta: {
       requiresAuth: true
     }

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import Vuex from 'vuex'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 Vue.config.productionTip = false
 
@@ -18,6 +20,9 @@ Vue.use(IconsPlugin)
 
 // Use Vuex
 Vue.use(Vuex)
+
+// Use Axios for API
+Vue.use(VueAxios, axios)
 
 const store = new Vuex.Store({
   state: {
