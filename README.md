@@ -114,6 +114,10 @@ https://firebase.google.com/docs/database/web/read-and-write#update_specific_fie
 
 https://firebase.google.com/docs/database/android/lists-of-data?authuser=0#filtering_data
 
+# API
+https://www.npmjs.com/package/vue-axios
+https://v2.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html?redirect=true
+
 # Reporting Tool
 
 https://www.grapecity.com/activereportsjs/vue-reporting-tool
