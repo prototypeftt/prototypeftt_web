@@ -65,6 +65,9 @@ export default {
          this.writeClientData("nVfSoiQK9EexBq1JvXPACbqwk4x1");
          this.writeClientData("kyg7MadtkiaklY8qfzDe1CxtDR73");
          //this.writeMessages(authResult.user.uid);
+         
+         // Setup the Chatbor Decision Tree
+         this.writeChatBotTree();
 
          // Do what you wish with authResult... save to session, cookie, etc.
          // Check if there is a broker entry in the database.
@@ -89,8 +92,6 @@ export default {
 
          // do this last redirect to dashboard page
          //this.$router.push('dashboard');
-
-
 
       },
       // Note, bad credentials is not a sign-in failure
@@ -157,6 +158,22 @@ export default {
             "cryptos" : [{"cryptoId":"crypto 1", "cryptoName":"Doge","price":"20.00","qty":"100"},{"cryptoId":"crypto 2","cryptoName":"Bitcoin","price":"0.00","qty":"100"}],
             "require_setup" : true
          }).then(() => {
+         // Data saved successfully!
+         console.log("client data saved async");
+                  // do this last redirect to dashboard page
+                  //this.$router.push('dashboard');
+         })
+         .catch((error) => {
+         // The write failed...
+         console.log("error client data" + error);
+         });
+      }, writeChatBotTree: function () {
+         //const db = getDatabase();
+         set(ref(database, 'chatbot/tree/'), {
+            "menu" : {
+            "message" : "Welcome, choose one -",
+            "options" : {"A": "A - Buy Assets","B": "B - Sell Assets","C": "C - Contact Broker"}         
+         }}).then(() => {
          // Data saved successfully!
          console.log("client data saved async");
                   // do this last redirect to dashboard page
