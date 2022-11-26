@@ -7,7 +7,7 @@
           <b-nav-item v-if="!loggedIn" to="/">Home</b-nav-item> 
           <b-nav-item v-if="!loggedIn" to="/about">About</b-nav-item> 
           <b-nav-item v-if="loggedIn" to="/clients">Clients</b-nav-item>
-          <b-nav-item v-if="loggedIn" to="/aiengine">AI</b-nav-item> 
+          <b-nav-item v-if="loggedIn" to="/aiengine">AI Engine</b-nav-item>
           <b-nav-item v-if="loggedIn" to="/inbox">Inbox</b-nav-item>
           <b-nav-item-dropdown v-if="loggedIn" text="Reports" right>
             <b-dropdown-item href="#">Shares</b-dropdown-item>
