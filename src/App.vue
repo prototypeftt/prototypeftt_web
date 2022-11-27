@@ -9,10 +9,10 @@
           <b-nav-item v-if="loggedIn" to="/clients">Clients</b-nav-item>
           <b-nav-item v-if="loggedIn" to="/aiengine">AI Engine</b-nav-item>
           <b-nav-item v-if="loggedIn" to="/inbox">Inbox</b-nav-item>
-          <b-nav-item-dropdown v-if="loggedIn" text="Reports" right>
+         <!-- <b-nav-item-dropdown v-if="loggedIn" text="Reports" right>
             <b-dropdown-item href="#">Shares</b-dropdown-item>
             <b-dropdown-item href="#">Crypto</b-dropdown-item>
-          </b-nav-item-dropdown>          
+          </b-nav-item-dropdown>        -->  
           <b-nav-item-dropdown v-if="loggedIn" text="User" right>
             <b-dropdown-item href="settings">Settings</b-dropdown-item>
             <b-dropdown-item href="alerts">Alerts</b-dropdown-item>
