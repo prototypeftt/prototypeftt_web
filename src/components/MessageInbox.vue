@@ -6,7 +6,7 @@
             <template v-slot:cell(uuid)="row">
                <b-col>{{ row.item.uuid }}</b-col>
             </template>
-            
+
             <template #cell(reply)="row">
                <b-button size="sm" @click="showNewMessage(row.item)" class="mr-2">
                   Reply
@@ -55,7 +55,7 @@ export default {
    data: () => {
       return {
         messageList:[],
-        fields:['message','name','uuid','Delete','Reply'],
+        fields:['message','name','uuid','Reply'],
         messageState: null,
         modalData:null,
         sendingReply: false
@@ -93,8 +93,7 @@ export default {
          //console.log("reply to:" + item.uuid);
          this.$bvModal.show('message-reply')
          this.modalData = item;
-      }
-      ,messageReply(modalData){
+      },messageReply(modalData){
 //         this.$bvModal.show('message-reply')
          console.log("api call: " + modalData.uuid);
          //let currentObj = this;
@@ -108,24 +107,17 @@ export default {
             })
 
             .then(function (response) {
-
-            //currentObj.output = response.data;
-
-            //this.$bvModal.hide('discard-button');
-            
+           
             console.log("api call success " + response);
-            //this.sendingReply = false;
 
             })
 
             .catch(function (error) {
             this.sendingReply = false;
-            //currentObj.output = error;
 
             console.log("api call failure " + error);
 
             });
-
             
       }
 

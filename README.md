@@ -134,3 +134,6 @@ https://cli.vuejs.org/guide/deployment.html
 
 # Test Merge
 Test for auto deploy on new merge 30.10.2022 #1
+
+# Storage Bucket
+https://firebase.google.com/docs/storage/web/download-files
