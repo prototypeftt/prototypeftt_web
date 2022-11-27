@@ -62,8 +62,8 @@ export default {
          console.log('redirectUrl', redirectUrl)
 
          // temp method call to create client data
-         this.writeClientData("nVfSoiQK9EexBq1JvXPACbqwk4x1");
-         this.writeClientData("kyg7MadtkiaklY8qfzDe1CxtDR73");
+         // this.writeClientData("nVfSoiQK9EexBq1JvXPACbqwk4x1");
+         // this.writeClientData("kyg7MadtkiaklY8qfzDe1CxtDR73");
          //this.writeMessages(authResult.user.uid);
          
          // Setup the Chatbor Decision Tree
