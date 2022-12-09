@@ -140,6 +140,10 @@ export default {
         
     }, selectOption: function(option){
       console.log("option selected:" + option);
+      this.axios.post('https://us-central1-prototypeftt-cca12.cloudfunctions.net/api/chatbot/selectoption', {
+            "senderUuid" : "guest",
+            "selection" : option,
+            }).then(response => (this.updateMessage(response)))
     }
     
 
