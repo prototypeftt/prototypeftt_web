@@ -1,7 +1,6 @@
 <template>
-  <div class="logout">
-    <h1>Chatbot Demo</h1>
-    <div class="chatbox" id="maintel-chat">
+
+  <div class="chatbox" id="maintel-chat">
   <div class="chatbox-header">
     <div class="chatbox-agent">
       <span>FTT Chatbot</span>
@@ -14,19 +13,26 @@
     <li class="chatbox-conversation__message" :key="message.id" v-for="message in conversation" v-bind:class="'chatbox-conversation__message--' + message.type">
       <div class="chatbox-message__sender">
         <span>{{ message.sender }}</span>
-        <img class="chatbox-message__photo" :src="message.photo">
+       <!-- <b-avatar size="md" variant="info" :src="message.photo"></b-avatar> -->
+         <img class="chatbox-message__photo" :src="message.photo"> 
       </div>
       <div class="chatbox-message__content">
         <p>{{ message.text }}</p>
       </div>
+      <div class="chatbox-message__options">
+        <li class="chatbox-conversation__message" :key="option.id" v-for="option in message.options" v-bind:class="'chatbox-conversation__message--'">
+          <b-button pill variant="light" @click="selectOption(option.id)">{{option.option}}</b-button> 
+      </li>
+        </div>
     </li>
+    
   </ul>
   <form class="chatbox-footer">
     <input class="chatbox-message" v-model="message">
     <button type="button" class="chatbox-btn chatbox-btn--send" @click="addMessage()">Send</button>
   </form>
 </div>
-  </div>
+
   
 </template>
 
@@ -59,11 +65,11 @@ var Chatbot = {
 export default {
   name: 'ChatBot',
   props: {
-
   },   data: () => {
       return {
-        message: 'Hello Vue!',
+        message: '',
         conversation: [],
+        options: [],
       }}, 
       
   methods: {
@@ -74,7 +80,8 @@ export default {
         sender: 'Tom',
         text: this.message,
         type: 'to',
-        photo: 'https://i.pravatar.cc/30?img=2'
+        photo: 'https://i.pravatar.cc/30?img=2',
+        options: this.options,
       };
       
       if(this.message.length) {
@@ -82,17 +89,73 @@ export default {
         // This code is triggering the 'sendMessage' event and passing in the message data.
         Chatbot.trigger('sendMessage', JSON.parse(JSON.stringify(this.conversation[this.conversation.length-1])));
         this.message = '';
+        this.options = [];
       }
+
+      
+
+    }, startChatSession: function() {
+          // Start a new chat session for a guest user
+    this.axios.post('https://us-central1-prototypeftt-cca12.cloudfunctions.net/api/chatbot/newsession', {
+            "senderUuid" : "guest",
+            "selection" : "",
+            }).then(response => (this.updateMessage(response)))
+
+            /*.then(function (response) {
+           
+            //console.log("api call success " + JSON.stringify(response.data.message));
+            console.log("api call success " + response.data.message);
+            //this.updateMessage(response.data.message);
+            //console.log("this message:"+this.message);
+            //this.message = response.data.message;
+            Chatbot.trigger('sendMessage', response.data.message);
+            //this.conversation.push(response);
+
+            })*/
+
+            .catch(function (error) {
+            //this.sendingReply = false;
+
+            console.log("api call failure " + error);
+
+            });
+    }, updateMessage: function(response) {
+      //this.message=message.data.message;
+      //console.log("api call success " + response.data.options.k);
+      this.message = response.data.message;
+      //this.options = response.data.options;
+      for (const [key, value] of Object.entries(response.data.options)) {
+        console.log(`${key}: ${value}`);
+      var option = {
+        id: key,
+        option: value,
+      };
+
+      this.options.push(option);
+
+      }
+      //this.options.push(response.data.options);
+        //console.log("this message:"+message)
+        //this.addMessage;
+        
+    }, selectOption: function(option){
+      console.log("option selected:" + option);
     }
     
 
-  }, mounted(){
-    
+  }, 
+  mounted(){
+
+
+    this.startChatSession();
 
 
   },updated: function() {
     var chatConversation = document.getElementById('conversation');
     chatConversation.scrollTop = chatConversation.scrollHeight;
+  }, watch : { message:function() {
+    this.addMessage();
+  }
   }
 };
 
@@ -111,14 +174,15 @@ export default {
   right: 5px;
   border-radius: 5px 5px 0 0;
   width: 260px;
-  height: 300px;
+  height: 400px;
   overflow: hidden;
 }
 
 .chatbox-header {
   padding: 10px;
   overflow: hidden;
-  background: #666;
+  background: black;
+  color: white;
 }
 
 .chatbox-agent {
@@ -183,7 +247,15 @@ export default {
 
 .chatbox-message__content {
   padding: 5px 12px;
-  background: #5e6e6e;
+  background: white;
+  border-radius: 12px;
+  display: inline-block;
+  margin: 5px 0 0;
+}
+
+.chatbox-message__options {
+  padding: 5px 12px;
+
   border-radius: 12px;
   display: inline-block;
   margin: 5px 0 0;
@@ -206,7 +278,7 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-  background: #666;
+  background: black;
   padding: 5px 10px;
 }
 
