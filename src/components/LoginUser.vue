@@ -24,7 +24,7 @@ import * as firebaseui from 'firebaseui'
 import "firebaseui/dist/firebaseui.css";
 import firebaseConfig from '../helpers/firebaseConfig';
 
-import { getDatabase, set, ref, get, child } from "firebase/database";
+import { getDatabase, set, ref, get, child, update } from "firebase/database";
 //import { getDatabase, set, ref } from "firebase/database";
 
 // Initialize Firebase app
@@ -172,7 +172,7 @@ export default {
          set(ref(database, 'chatbot/tree/'), {
             "menu" : {
             "message" : "Welcome, choose one -",
-            "options" : {"A": "A - Buy Assets","B": "B - Sell Assets","C": "C - Contact Broker"}         
+            "options" : {"A": "A - Buy Assets","B": "B - Asset Prices","C": "C - Contact Broker"}         
          }}).then(() => {
          // Data saved successfully!
          console.log("client data saved async");
@@ -182,7 +182,43 @@ export default {
          .catch((error) => {
          // The write failed...
          console.log("error client data" + error);
-         });
+         }); 
+
+         var updates = {};
+         /*updates['chatbot/tree/'] = {
+            "menu" : {
+            "message" : "Welcome, choose one -",
+            "options" : {"A": "A - Buy Assets","B": "B - View Asset Prices","C": "C - Contact Broker"}         
+         }};*/
+         updates['chatbot/tree/option/A/'] = {            
+            "message" : "Download the app and register to buy assets",
+            "options" : {"A": "A - Download","B": "B - Previous Menu"}         
+         };
+         update(ref(database), updates);
+         updates['chatbot/tree/option/B/'] = {
+        
+            "message" : "Asset Prices",
+            "options" : {"A": "A - Buy Assets","B": "B - Previous Menu"}         
+         };
+         update(ref(database), updates);
+         updates['chatbot/tree/option/C/'] = {
+    
+            "message" : "Choose Contact Method:",
+            "options" : {"A": "A - Email Broker","B": "B - Phone Broker"}         
+         };
+
+         update(ref(database), updates);
+
+         // Second Level
+
+         //updates = {};
+
+         updates['chatbot/tree/option/AA/'] = {            
+            "message" : "Download the app and register to buy assets",
+            "options" : {"A": "A - Download","B": "B - Previous Menu"}         
+         };
+         update(ref(database), updates);
+
       },
 
    },

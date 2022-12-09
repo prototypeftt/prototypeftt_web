@@ -70,7 +70,7 @@ export default {
       return {
         clientList: [],
         items: [],
-        fields: ['uuid','broker','name','direct','crypto','shares'],
+        fields: ['uuid','broker','client name','direct','crypto','shares'],
         assetFields: ['ID','Name','Price','Qty'],
         cryptos: [],
         shares: []

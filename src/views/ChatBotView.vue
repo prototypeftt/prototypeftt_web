@@ -1,21 +1,20 @@
 <template>
-  <div class="home">
-    <LoginUser/>
+  <div class="logout">
     <ChatBot/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 
-import LoginUser from '@/components/LoginUser.vue'
 import ChatBot from '@/components/ChatBot.vue'
 
 export default {
-  name: 'HomeView',
+  name: 'ChatBotView',
   components: {
-    LoginUser,ChatBot
+    ChatBot,
 
   }
 }
+
 </script>
+  
