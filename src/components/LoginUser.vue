@@ -172,7 +172,7 @@ export default {
          set(ref(database, 'chatbot/tree/'), {
             "menu" : {
             "message" : "Welcome, choose one -",
-            "options" : {"A": "A - Buy Assets","B": "B - Asset Prices","C": "C - Contact Broker"}         
+            "options" : {"A": "Buy Assets","B": "Asset Prices","C": "Contact Broker"}         
          }}).then(() => {
          // Data saved successfully!
          console.log("client data saved async");
@@ -192,19 +192,19 @@ export default {
          }};*/
          updates['chatbot/tree/option/A/'] = {            
             "message" : "Download the app and register to buy assets",
-            "options" : {"A": "A - Download","B": "B - Previous Menu"}         
+            "options" : {"AA": "Download","XX": "Main Menu"}         
          };
          update(ref(database), updates);
          updates['chatbot/tree/option/B/'] = {
         
             "message" : "Asset Prices",
-            "options" : {"A": "A - Buy Assets","B": "B - Previous Menu"}         
+            "options" : {"BA": "Buy Assets","XX": "Main Menu"}         
          };
          update(ref(database), updates);
          updates['chatbot/tree/option/C/'] = {
     
             "message" : "Choose Contact Method:",
-            "options" : {"A": "A - Email Broker","B": "B - Phone Broker"}         
+            "options" : {"CA": "Email Broker","CB": "Phone Broker","XX": "Main Menu"}         
          };
 
          update(ref(database), updates);
@@ -214,8 +214,26 @@ export default {
          //updates = {};
 
          updates['chatbot/tree/option/AA/'] = {            
-            "message" : "Download the app and register to buy assets",
-            "options" : {"A": "A - Download","B": "B - Previous Menu"}         
+            "message" : "Download the client app from the App Store",
+            "options" : {"XX": "Main Menu"}         
+         };
+         update(ref(database), updates);
+
+         updates['chatbot/tree/option/BA/'] = {            
+            "message" : "Download the App and register to buy assets",
+            "options" : {"XX": "Main Menu"}         
+         };
+         update(ref(database), updates);
+
+         updates['chatbot/tree/option/CB/'] = {            
+            "message" : "Phone Broker on 555-456178 to buy assets",
+            "options" : {"XX": "Main Menu"}         
+         };
+         update(ref(database), updates);
+
+         updates['chatbot/tree/option/XX/'] = {            
+            "message" : "Choose One ",
+            "options" : {"A": "Buy Assets","B": "Asset Prices","C": "Contact Broker"}        
          };
          update(ref(database), updates);
 

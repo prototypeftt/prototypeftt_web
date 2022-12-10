@@ -28,8 +28,8 @@
     
   </ul>
   <form class="chatbox-footer">
-    <input class="chatbox-message" v-model="message">
-    <button type="button" class="chatbox-btn chatbox-btn--send" @click="addMessage()">Send</button>
+    <!-- <input class="chatbox-message" v-model="message">
+    <button type="button" class="chatbox-btn chatbox-btn--send" @click="addMessage()">Send</button>-->
   </form>
 </div>
 
