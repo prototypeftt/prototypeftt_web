@@ -6,10 +6,13 @@ import ClientsView from '../views/ClientsView.vue'
 import AIView from '../views/AIView.vue'
 import InboxView from '../views/InboxView.vue'
 import UserSettingsView from '../views/UserSettingsView.vue'
+import AlertsSetup from '../views/AlertsView.vue'
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 Vue.use(VueRouter)
+
+console.clear()
 
 const routes = [
   {
@@ -38,6 +41,13 @@ const routes = [
     path: '/aiengine',
     name: 'AIView',
     component: AIView,
+    meta: {
+      requiresAuth: true
+    }
+  },{
+    path: '/alerts',
+    name: 'AlertsView',
+    component: AlertsSetup,
     meta: {
       requiresAuth: true
     }

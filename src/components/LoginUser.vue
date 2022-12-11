@@ -66,8 +66,12 @@ export default {
          // this.writeClientData("kyg7MadtkiaklY8qfzDe1CxtDR73");
          //this.writeMessages(authResult.user.uid);
          
-         // Setup the Chatbor Decision Tree
+         // Setup the Chatbot Decision Tree
          this.writeChatBotTree();
+         
+         //Setup the alerts data structure for testing
+         this.alertsSetup(authResult.user.uid,"GOOGL");
+         this.alertsSetup(authResult.user.uid,"MSFT");
 
          // Do what you wish with authResult... save to session, cookie, etc.
          // Check if there is a broker entry in the database.
@@ -225,6 +229,12 @@ export default {
          };
          update(ref(database), updates);
 
+         updates['chatbot/tree/option/CA/'] = {            
+            "message" : "Download and register on app to email broker",
+            "options" : {"XX": "Main Menu"}         
+         };
+         update(ref(database), updates);
+
          updates['chatbot/tree/option/CB/'] = {            
             "message" : "Phone Broker on 555-456178 to buy assets",
             "options" : {"XX": "Main Menu"}         
@@ -237,7 +247,23 @@ export default {
          };
          update(ref(database), updates);
 
-      },
+      },alertsSetup: function(uuid,asset){
+
+         set(ref(database, 'alerts/'+uuid+'/'+asset), {
+            "assetId" : asset,
+            "alertLevel" : "5"
+         }).then(() => {
+         // Data saved successfully!
+         console.log("alerts saved");
+                  // do this last redirect to dashboard page
+                  //this.$router.push('dashboard');
+         })
+         .catch((error) => {
+         // The write failed...
+         console.log("error alerts not saved" + error);
+         });
+
+      }
 
    },
    watch: {
