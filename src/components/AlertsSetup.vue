@@ -1,40 +1,22 @@
 
 <template>
 
-<div>
+   <div>
       <table>
          <tr>
             <th v-for="item in fields" :key="item">
-               {{item}}
+               {{ item }}
             </th>
          </tr>
-         
-            <tr v-for="item in cryptoList" :key="item.uuid" >
-               <td >{{item.assetCategory}}</td>
-               <td >{{item.assetId}}</td>
-               <td>{{item.assetName}}</td>
-               <td>{{item.assetDate}}</td>
-               <td>{{item.closePrice}}</td>
-               <td>{{item.predictedPrice}}</td>
-               <td>{{item.assetPrediction}}</td>
-               <td>{{item.assetMovement}}</td>
-               <td><input type="text" :id="item.assetId"  placeholder="Enter % movement to alert"/></td>
-            </tr>
 
-            <tr v-for="item in stockList" :key="item.uuid" >
-               <td >{{item.assetCategory}}</td>
-               <td >{{item.assetId}}</td>
-               <td>{{item.assetName}}</td>
-               <td>{{item.assetDate}}</td>
-               <td>{{item.closePrice}}</td>
-               <td>{{item.predictedPrice}}</td>
-               <td>{{item.assetPrediction}}</td>
-               <td>{{item.assetMovement}}</td>
-               <td><input type="text" :id="item.assetId" placeholder="Enter % movement to alert"/></td>
-               <td><b-button size="sm" @click="setAlert(item.assetId)" class="mr-2">Set Alert</b-button></td>
-               
-            </tr>
-         
+         <tr v-for="item in alertList" :key="item.uuid">
+            <td>{{ item.assetCategory }}</td>
+            <td>{{ item.assetId }}</td>
+            <td>{{ item.assetName }}</td>
+            <td v-if="item.alertLevel > 0"><input type="text" :id="item.assetId" placeholder="Enter % movement to alert" :value="item.alertLevel"/></td>
+            <td v-else><input type="text" :id="item.assetId" placeholder="Enter % movement to alert" /></td>
+         </tr>
+
       </table>
    </div>
 
@@ -45,18 +27,13 @@
 
 import { getAuth } from "firebase/auth";
 
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, get, child, set } from "firebase/database";
 
-//import { getStorage, ref as ref1, getDownloadURL } from "firebase/storage";
 
 const auth = getAuth();
 
 // Reference to database
 const database = getDatabase();
-
-// Initialize Cloud Storage and get a reference to the service
-//const storage = getStorage();
-
 
 export default {
    name: 'AlertsSetup',
@@ -64,80 +41,121 @@ export default {
    },
    data: () => {
       return {
-        items: [],
-        assetList: [],
-        cryptoList: [],
-        stockList: [],
-        alertList: [],
-        fields: ['Asset Type', 'Asset ID', 'Asset Name','Last Updated','Close Price','Predicted Price','Movement Prediction', 'Movement Size' ,'Alert %'],
+         items: [],
+         assetList: [],
+         alertList: [],
+         fields: ['Asset Type', 'Asset ID', 'Asset Name', 'Alert %'],
+         alertCheck: false,
       }
    },
    computed: {
-
-   },
-   methods: {
-      checkFormValidity() {
+      alertValue() {
+         return 6.66;
          
-         return null
-      }, setAlert(id){
-         console.log("alert set:"+id);
+         //return item.assetId;
       }
    },
+   methods: {
+      setAlert(id,alertLevel) {
+         console.log("alert set:" + id +"alertLevel:" + alertLevel);
+      }, getAlertValue(assetId) {  //Gets the currently set alert value from the array
+
+         this.alertList.forEach((alert) => {
+            if (assetId == alert.assetId) {
+               console.log("alert level" + alert.alertLevel);
+               return alert.alertLevel;
+            }else{
+               return null;
+            }
+         });
+
+         return null;
+
+      },checkAlertValue(assetId) {  //Gets the currently set alert value from the array
+
+         this.alertList.forEach((alert) => {
+            if (assetId == alert.assetId) {
+               console.log("alert asset found " + alert.assetId);
+               this.alertCheck = true;
+               return alert.assetId;
+            }else{
+               this.alertCheck = false;
+               return null;
+            }
+         });
+         this.alertCheck = false;
+         return null;
+
+      },setupAlerts() { 
+         console.log("setup alerts");
+         this.assetList.forEach((asset)=>{
+            console.log("assets "+asset.assetId)
+
+            set(ref(database, 'alerts/' + auth.currentUser.uid + '/' + asset.assetId), {
+            "assetCategory": asset.assetCategory,
+            "assetId": asset.assetId,
+            "assetName": asset.assetName,
+            "alertLevel": "0"
+         }).then(() => {
+            // Data saved successfully!
+            console.log("alerts saved");
+            // do this last redirect to dashboard page
+            //this.$router.push('dashboard');
+         })
+            .catch((error) => {
+               // The write failed...
+               console.log("error alerts not saved" + error);
+            });
+
+         });
+      }
+      },
    watch: {
 
    },
    mounted() {
-      //alert('mounted');
 
-      var dbref = ref(database, 'assets/');
+      var dbref = ref(database,'assets/');
 
-     get(child(dbref, 'CRYPTO')).then((snapshot) => {
-         if (snapshot.exists()) {
+      get(child(dbref, 'CRYPTO')).then((snapshot) => {
+            if (snapshot.exists()) {
 
-            snapshot.forEach( item => {
-               //this.generateLink(item.val().assetId,item.val());
-               this.cryptoList.push(item.val());
-               
-            }); // Adds each asset type to an array
+               snapshot.forEach( item => {
+                  
+                  this.assetList.push(item.val());
+                  
+               }); // Adds each asset type to an array
 
-         } else {
-            console.log("No client data available");
-         }
-      }).then(() => {
-            console.log("asset list" + this.cryptoList.length + "current user" + auth.currentUser.uid);
+            } else {
+               console.log("No client data available");
+            }
+         }).then(() => {
+               console.log("asset list" + this.assetList.length + "current user" + auth.currentUser.uid);
 
-            /*this.items.forEach( item => {this.queryFunction(item,item); //iterates over client data using client UUID's to get client info and update table
+            }).catch((error) => {
+            console.error(error);
+         });
 
-            });*/
+         get(child(dbref, 'STOCK')).then((snapshot) => {
+            if (snapshot.exists()) {
 
-         }).catch((error) => {
-         console.error(error);
-      });
+               snapshot.forEach( item => {
+                  
+                  this.assetList.push(item.val());
+                  
+               }); // Adds each asset type to an array
 
-      
+            } else {
+               console.log("No client data available");
+            }
+         }).then(() => {
+               console.log("asset list" + this.assetList.length + "current user" + auth.currentUser.uid);
 
-      get(child(dbref, 'STOCK')).then((snapshot) => {
-         if (snapshot.exists()) {
+               this.setupAlerts();
 
-            snapshot.forEach( item => {
-               //this.generateLink(item.val().assetId,item.val());
-               this.stockList.push(item.val());
-               
-            }); // Adds each asset type to an array
-
-         } else {
-            console.log("No client data available");
-         }
-      }).then(() => {
-            console.log("asset list" + this.stockList.length + "current user" + auth.currentUser.uid);
-
-            /*this.items.forEach( item => {this.queryFunction(item,item); //iterates over client data using client UUID's to get client info and update table
-
-            });*/
-
-         }).catch((error) => {
-         console.error(error);
-      });
+            }).catch((error) => {
+            console.error(error);
+         });
 
 
       dbref = ref(database, `alerts/${auth.currentUser.uid}/`);
@@ -147,31 +165,33 @@ export default {
       get(child(dbref, `/`)).then((snapshot) => {
          if (snapshot.exists()) {
 
-            snapshot.forEach( item => {this.alertList.push(item.val());}); // Adds each message to an array
+            snapshot.forEach(item => { this.alertList.push(item.val()); }); // Adds each message to an array
 
          } else {
             console.log("No message data available");
          }
       }).then(() => {
-            console.log("alert list then");
+         console.log("alert list then");
 
       }).catch((error) => {
-            console.error(error);
+         console.error(error);
       });
-      
-   }  
-   
+
+   }
+
 };
 
 </script>
 
 <style scoped>
-table, th, td {
-  border: 1px solid black;
-  margin: 5px;
-  padding-left: 5px;
-  padding: 5px;
-  vertical-align:top;
-  table-layout: auto;
-} 
+table,
+th,
+td {
+   border: 1px solid black;
+   margin: 5px;
+   padding-left: 5px;
+   padding: 5px;
+   vertical-align: top;
+   table-layout: auto;
+}
 </style>

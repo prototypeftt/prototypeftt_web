@@ -33,7 +33,7 @@ var app = firebase.initializeApp(firebaseConfig);
 // Reference to database
 const database = getDatabase();
 
-export default {  
+export default {
    name: 'LoginUser',
    props: {
    },
@@ -65,13 +65,13 @@ export default {
          // this.writeClientData("nVfSoiQK9EexBq1JvXPACbqwk4x1");
          // this.writeClientData("kyg7MadtkiaklY8qfzDe1CxtDR73");
          //this.writeMessages(authResult.user.uid);
-         
+
          // Setup the Chatbot Decision Tree
          this.writeChatBotTree();
-         
+
          //Setup the alerts data structure for testing
-         this.alertsSetup(authResult.user.uid,"GOOGL");
-         this.alertsSetup(authResult.user.uid,"MSFT");
+         this.alertsSetup(authResult.user.uid, "GOOGL");
+         this.alertsSetup(authResult.user.uid, "MSFT");
 
          // Do what you wish with authResult... save to session, cookie, etc.
          // Check if there is a broker entry in the database.
@@ -83,8 +83,8 @@ export default {
          var dbref = ref(database, 'brokers/');
          get(child(dbref, `${authResult.user.uid}`)).then((snapshot) => {
             if (snapshot.exists()) {
-               console.log("broker exists in database" );
-                        // do this last redirect to dashboard page
+               console.log("broker exists in database");
+               // do this last redirect to dashboard page
                this.$router.push('dashboard');
             } else {
                console.log("No data available");
@@ -109,84 +109,88 @@ export default {
       writeUserData: function (userId) {
          //const db = getDatabase();
          set(ref(database, 'brokers/' + userId), {
-            "premium" : "0.00",
-            "institution" : "None",
-            "name" : "No Name",
-            "broker" : true,
-            "clients" : ["kyg7MadtkiaklY8qfzDe1CxtDR73", "nVfSoiQK9EexBq1JvXPACbqwk4x1"],
-            "require_setup" : true
+            "premium": "0.00",
+            "institution": "None",
+            "name": "No Name",
+            "broker": true,
+            "clients": ["kyg7MadtkiaklY8qfzDe1CxtDR73", "nVfSoiQK9EexBq1JvXPACbqwk4x1"],
+            "require_setup": true
          }).then(() => {
-         // Data saved successfully!
-         console.log("broker data saved async");
-                  // do this last redirect to dashboard page
-                  this.$router.push('dashboard');
+            // Data saved successfully!
+            console.log("broker data saved async");
+            // do this last redirect to dashboard page
+            this.$router.push('dashboard');
          })
-         .catch((error) => {
-         // The write failed...
-         console.log("error" + error);
-         });
-      },writeMessages: function(uuid){
-         set(ref(database, 'messages/'+uuid), [{
-            "uuid" : "No sender uuid",
-            "name" : "sender name",
-            "message" : "1 test message from sender"},{
-            "uuid" : "No sender uuid",
-            "name" : "sender name",
-            "message" : "2 test message from sender"},{
-            "uuid" : "No sender uuid",
-            "name" : "sender name",
-            "message" : "3 test message from sender"}],
+            .catch((error) => {
+               // The write failed...
+               console.log("error" + error);
+            });
+      }, writeMessages: function (uuid) {
+         set(ref(database, 'messages/' + uuid), [{
+            "uuid": "No sender uuid",
+            "name": "sender name",
+            "message": "1 test message from sender"
+         }, {
+            "uuid": "No sender uuid",
+            "name": "sender name",
+            "message": "2 test message from sender"
+         }, {
+            "uuid": "No sender uuid",
+            "name": "sender name",
+            "message": "3 test message from sender"
+         }],
          ).then(() => {
-         // Data saved successfully!
-         console.log("client data saved async");
-                  // do this last redirect to dashboard page
-                  //this.$router.push('dashboard');
+            // Data saved successfully!
+            console.log("client data saved async");
+            // do this last redirect to dashboard page
+            //this.$router.push('dashboard');
          })
-         .catch((error) => {
-         // The write failed...
-         console.log("error client data" + error);
-         });
+            .catch((error) => {
+               // The write failed...
+               console.log("error client data" + error);
+            });
 
-      }, 
+      },
       writeClientData: function (uuid) {
          //const db = getDatabase();
-         set(ref(database, 'clients/'+uuid), {
-            "name" : "No Name",
-            "broker" : true,
-            "direct" : false,
-            "shares" : [{"shareId": "share 1","shareName":"Tesla","price" : "10.00", "qty" : "100"}, 
-            {"shareId": "share 2","shareName":"Twitter","price" : "0.00", "qty" : "100"},
-            {"shareId": "share 3","shareName":"SpaceX","price" : "0.00", "qty" : "100"},
-            {"shareId": "share 4","shareName":"Meta","price" : "0.00", "qty" : "100"},
-            {"shareId": "share 5","shareName":"Microsoft","price" : "0.00", "qty" : "100"}],
-            "cryptos" : [{"cryptoId":"crypto 1", "cryptoName":"Doge","price":"20.00","qty":"100"},{"cryptoId":"crypto 2","cryptoName":"Bitcoin","price":"0.00","qty":"100"}],
-            "require_setup" : true
+         set(ref(database, 'clients/' + uuid), {
+            "name": "No Name",
+            "broker": true,
+            "direct": false,
+            "shares": [{ "shareId": "share 1", "shareName": "Tesla", "price": "10.00", "qty": "100" },
+            { "shareId": "share 2", "shareName": "Twitter", "price": "0.00", "qty": "100" },
+            { "shareId": "share 3", "shareName": "SpaceX", "price": "0.00", "qty": "100" },
+            { "shareId": "share 4", "shareName": "Meta", "price": "0.00", "qty": "100" },
+            { "shareId": "share 5", "shareName": "Microsoft", "price": "0.00", "qty": "100" }],
+            "cryptos": [{ "cryptoId": "crypto 1", "cryptoName": "Doge", "price": "20.00", "qty": "100" }, { "cryptoId": "crypto 2", "cryptoName": "Bitcoin", "price": "0.00", "qty": "100" }],
+            "require_setup": true
          }).then(() => {
-         // Data saved successfully!
-         console.log("client data saved async");
-                  // do this last redirect to dashboard page
-                  //this.$router.push('dashboard');
+            // Data saved successfully!
+            console.log("client data saved async");
+            // do this last redirect to dashboard page
+            //this.$router.push('dashboard');
          })
-         .catch((error) => {
-         // The write failed...
-         console.log("error client data" + error);
-         });
+            .catch((error) => {
+               // The write failed...
+               console.log("error client data" + error);
+            });
       }, writeChatBotTree: function () {
          //const db = getDatabase();
          set(ref(database, 'chatbot/tree/'), {
-            "menu" : {
-            "message" : "Welcome, choose one -",
-            "options" : {"A": "Buy Assets","B": "Asset Prices","C": "Contact Broker"}         
-         }}).then(() => {
-         // Data saved successfully!
-         console.log("client data saved async");
-                  // do this last redirect to dashboard page
-                  //this.$router.push('dashboard');
+            "menu": {
+               "message": "Welcome, choose one -",
+               "options": { "A": "Buy Assets", "B": "Asset Prices", "C": "Contact Broker" }
+            }
+         }).then(() => {
+            // Data saved successfully!
+            console.log("client data saved async");
+            // do this last redirect to dashboard page
+            //this.$router.push('dashboard');
          })
-         .catch((error) => {
-         // The write failed...
-         console.log("error client data" + error);
-         }); 
+            .catch((error) => {
+               // The write failed...
+               console.log("error client data" + error);
+            });
 
          var updates = {};
          /*updates['chatbot/tree/'] = {
@@ -194,21 +198,21 @@ export default {
             "message" : "Welcome, choose one -",
             "options" : {"A": "A - Buy Assets","B": "B - View Asset Prices","C": "C - Contact Broker"}         
          }};*/
-         updates['chatbot/tree/option/A/'] = {            
-            "message" : "Download the app and register to buy assets",
-            "options" : {"AA": "Download","XX": "Main Menu"}         
+         updates['chatbot/tree/option/A/'] = {
+            "message": "Download the app and register to buy assets",
+            "options": { "AA": "Download", "XX": "Main Menu" }
          };
          update(ref(database), updates);
          updates['chatbot/tree/option/B/'] = {
-        
-            "message" : "Asset Prices",
-            "options" : {"BA": "Buy Assets","XX": "Main Menu"}         
+
+            "message": "Asset Prices",
+            "options": { "BA": "Buy Assets", "XX": "Main Menu" }
          };
          update(ref(database), updates);
          updates['chatbot/tree/option/C/'] = {
-    
-            "message" : "Choose Contact Method:",
-            "options" : {"CA": "Email Broker","CB": "Phone Broker","XX": "Main Menu"}         
+
+            "message": "Choose Contact Method:",
+            "options": { "CA": "Email Broker", "CB": "Phone Broker", "XX": "Main Menu" }
          };
 
          update(ref(database), updates);
@@ -217,51 +221,51 @@ export default {
 
          //updates = {};
 
-         updates['chatbot/tree/option/AA/'] = {            
-            "message" : "Download the client app from the App Store",
-            "options" : {"XX": "Main Menu"}         
+         updates['chatbot/tree/option/AA/'] = {
+            "message": "Download the client app from the App Store",
+            "options": { "XX": "Main Menu" }
          };
          update(ref(database), updates);
 
-         updates['chatbot/tree/option/BA/'] = {            
-            "message" : "Download the App and register to buy assets",
-            "options" : {"XX": "Main Menu"}         
+         updates['chatbot/tree/option/BA/'] = {
+            "message": "Download the App and register to buy assets",
+            "options": { "XX": "Main Menu" }
          };
          update(ref(database), updates);
 
-         updates['chatbot/tree/option/CA/'] = {            
-            "message" : "Download and register on app to email broker",
-            "options" : {"XX": "Main Menu"}         
+         updates['chatbot/tree/option/CA/'] = {
+            "message": "Download and register on app to email broker",
+            "options": { "XX": "Main Menu" }
          };
          update(ref(database), updates);
 
-         updates['chatbot/tree/option/CB/'] = {            
-            "message" : "Phone Broker on 555-456178 to buy assets",
-            "options" : {"XX": "Main Menu"}         
+         updates['chatbot/tree/option/CB/'] = {
+            "message": "Phone Broker on 555-456178 to buy assets",
+            "options": { "XX": "Main Menu" }
          };
          update(ref(database), updates);
 
-         updates['chatbot/tree/option/XX/'] = {            
-            "message" : "Choose One ",
-            "options" : {"A": "Buy Assets","B": "Asset Prices","C": "Contact Broker"}        
+         updates['chatbot/tree/option/XX/'] = {
+            "message": "Choose One ",
+            "options": { "A": "Buy Assets", "B": "Asset Prices", "C": "Contact Broker" }
          };
          update(ref(database), updates);
 
-      },alertsSetup: function(uuid,asset){
+      }, alertsSetup: function (uuid, asset) {
 
-         set(ref(database, 'alerts/'+uuid+'/'+asset), {
-            "assetId" : asset,
-            "alertLevel" : "5"
+         set(ref(database, 'alerts/' + uuid + '/' + asset), {
+            "assetId": asset,
+            "alertLevel": "5"
          }).then(() => {
-         // Data saved successfully!
-         console.log("alerts saved");
-                  // do this last redirect to dashboard page
-                  //this.$router.push('dashboard');
+            // Data saved successfully!
+            console.log("alerts saved");
+            // do this last redirect to dashboard page
+            //this.$router.push('dashboard');
          })
-         .catch((error) => {
-         // The write failed...
-         console.log("error alerts not saved" + error);
-         });
+            .catch((error) => {
+               // The write failed...
+               console.log("error alerts not saved" + error);
+            });
 
       }
 
