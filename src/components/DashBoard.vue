@@ -29,7 +29,7 @@
 
 import { getAuth } from "firebase/auth";
 //import firebase from 'firebase/compat/app';
-import { getDatabase, ref, get, child, update } from "firebase/database";
+import { getDatabase, ref, get, child, update,set } from "firebase/database";
 
 const auth = getAuth();
 
@@ -52,7 +52,9 @@ export default {
         premiumState: null,
         institution: '',
         institutionState: null,
-        institutionList: []
+        institutionList: [],
+        assetList:[],
+        createAlerts: false,
       }
    },
    computed: {
@@ -91,10 +93,36 @@ export default {
          updates['/brokers/' + userId + '/institution'] = this.institution;
          updates['/brokers/' + userId + '/require_setup'] = false;
          update(ref(database), updates);
-      },
+         this.createAlerts=true;
+      },setupAlerts(uuid) { 
+         console.log("setup alerts");
+         this.assetList.forEach((asset)=>{
+            console.log("assets "+asset.assetId)
+
+            set(ref(database, 'alerts/' + uuid + '/' + asset.assetId), {
+            "assetCategory": asset.assetCategory,
+            "assetId": asset.assetId,
+            "assetName": asset.assetName,
+            "alertLevel": "0"
+         }).then(() => {
+            // Data saved successfully!
+            console.log("alerts saved");
+            // do this last redirect to dashboard page
+            //this.$router.push('dashboard');
+         })
+            .catch((error) => {
+               // The write failed...
+               console.log("error alerts not saved" + error);
+            });
+
+         });
+      }
 
    },
    watch: {
+      createAlerts(){
+         this.setupAlerts(auth.currentUser.uid); //setup alerts default
+      }
 
    },
    mounted() {
@@ -108,6 +136,7 @@ export default {
             console.log("broker exists & modal check " + snapshot.val());
 
             if (snapshot.val()) {
+               
                this.$bvModal.show('modal-setup');
 
             } else {
@@ -138,6 +167,46 @@ export default {
       }).catch((error) => {
          console.error(error);
       });
+
+      dbref = ref(database,'assets/');
+
+      get(child(dbref, 'CRYPTO')).then((snapshot) => {
+            if (snapshot.exists()) {
+
+               snapshot.forEach( item => {
+                  
+                  this.assetList.push(item.val());
+                  
+               }); // Adds each asset type to an array
+
+            } else {
+               console.log("No client data available");
+            }
+         }).then(() => {
+               console.log("asset list" + this.assetList.length + "current user" + auth.currentUser.uid);
+
+            }).catch((error) => {
+            console.error(error);
+         });
+
+         get(child(dbref, 'STOCK')).then((snapshot) => {
+            if (snapshot.exists()) {
+
+               snapshot.forEach( item => {
+                  
+                  this.assetList.push(item.val());
+                  
+               }); // Adds each asset type to an array
+
+            } else {
+               console.log("No client data available");
+            }
+         }).then(() => {
+               console.log("asset list" + this.assetList.length + "current user" + auth.currentUser.uid);
+
+            }).catch((error) => {
+            console.error(error);
+         });         
 
    },
 };

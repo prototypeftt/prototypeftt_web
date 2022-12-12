@@ -13,8 +13,13 @@
             <td>{{ item.assetCategory }}</td>
             <td>{{ item.assetId }}</td>
             <td>{{ item.assetName }}</td>
-            <td v-if="item.alertLevel > 0"><input type="text" :id="item.assetId" placeholder="Enter % movement to alert" :value="item.alertLevel"/></td>
-            <td v-else><input type="text" :id="item.assetId" placeholder="Enter % movement to alert" /></td>
+            <td v-if="item.alertLevel > 0"><input type="text" :id="item.assetId" placeholder="Enter % movement to alert" :value="item.alertLevel" @input="displaySave(item.assetName,item.assetCategory)"/></td>
+            <td v-else><input type="text" :id="item.assetId" placeholder="Enter % movement to alert" @input="displaySave(item.assetName,item.assetCategory)"/>
+            <b-button variant="success" disabled v-show="saving === item.assetId">
+            <b-spinner small></b-spinner>
+            <span class="sr-only"> Saving...</span>
+            </b-button>
+         </td>
          </tr>
 
       </table>
@@ -27,7 +32,7 @@
 
 import { getAuth } from "firebase/auth";
 
-import { getDatabase, ref, get, child, set } from "firebase/database";
+import { getDatabase, ref, get, child, update } from "firebase/database";
 
 
 const auth = getAuth();
@@ -46,6 +51,7 @@ export default {
          alertList: [],
          fields: ['Asset Type', 'Asset ID', 'Asset Name', 'Alert %'],
          alertCheck: false,
+         saving: '',
       }
    },
    computed: {
@@ -56,58 +62,26 @@ export default {
       }
    },
    methods: {
-      setAlert(id,alertLevel) {
-         console.log("alert set:" + id +"alertLevel:" + alertLevel);
-      }, getAlertValue(assetId) {  //Gets the currently set alert value from the array
+      displaySave(assetName,assetCategory) {
 
-         this.alertList.forEach((alert) => {
-            if (assetId == alert.assetId) {
-               console.log("alert level" + alert.alertLevel);
-               return alert.alertLevel;
-            }else{
-               return null;
-            }
-         });
+         var updates = {};
+         this.saving = event.target.id;
+         console.log("saving:"+this.saving);
 
-         return null;
+         updates['alerts/'+auth.currentUser.uid+'/'+event.target.id+'/'] = {
+            "assetId": event.target.id,
+            "assetName": assetName,
+            "assetCategory": assetCategory,
+            "alertLevel": event.target.value
+         };
 
-      },checkAlertValue(assetId) {  //Gets the currently set alert value from the array
+         update(ref(database), updates);
 
-         this.alertList.forEach((alert) => {
-            if (assetId == alert.assetId) {
-               console.log("alert asset found " + alert.assetId);
-               this.alertCheck = true;
-               return alert.assetId;
-            }else{
-               this.alertCheck = false;
-               return null;
-            }
-         });
-         this.alertCheck = false;
-         return null;
+         this.timer = setTimeout(() => {
+         this.saving = '';
+        console.log("execute me")
+      }, 1000)
 
-      },setupAlerts() { 
-         console.log("setup alerts");
-         this.assetList.forEach((asset)=>{
-            console.log("assets "+asset.assetId)
-
-            set(ref(database, 'alerts/' + auth.currentUser.uid + '/' + asset.assetId), {
-            "assetCategory": asset.assetCategory,
-            "assetId": asset.assetId,
-            "assetName": asset.assetName,
-            "alertLevel": "0"
-         }).then(() => {
-            // Data saved successfully!
-            console.log("alerts saved");
-            // do this last redirect to dashboard page
-            //this.$router.push('dashboard');
-         })
-            .catch((error) => {
-               // The write failed...
-               console.log("error alerts not saved" + error);
-            });
-
-         });
       }
       },
    watch: {
@@ -150,8 +124,6 @@ export default {
             }
          }).then(() => {
                console.log("asset list" + this.assetList.length + "current user" + auth.currentUser.uid);
-
-               this.setupAlerts();
 
             }).catch((error) => {
             console.error(error);

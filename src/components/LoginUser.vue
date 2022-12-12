@@ -70,8 +70,8 @@ export default {
          this.writeChatBotTree();
 
          //Setup the alerts data structure for testing
-         this.alertsSetup(authResult.user.uid, "GOOGL");
-         this.alertsSetup(authResult.user.uid, "MSFT");
+         //this.alertsSetup(authResult.user.uid, "GOOGL");
+         //this.alertsSetup(authResult.user.uid, "MSFT");
 
          // Do what you wish with authResult... save to session, cookie, etc.
          // Check if there is a broker entry in the database.
@@ -89,6 +89,7 @@ export default {
             } else {
                console.log("No data available");
                this.writeUserData(authResult.user.uid);
+               this.setupAlerts(authResult.user.uid);
             }
          }).catch((error) => {
             console.error(error);
@@ -250,22 +251,6 @@ export default {
             "options": { "A": "Buy Assets", "B": "Asset Prices", "C": "Contact Broker" }
          };
          update(ref(database), updates);
-
-      }, alertsSetup: function (uuid, asset) {
-
-         set(ref(database, 'alerts/' + uuid + '/' + asset), {
-            "assetId": asset,
-            "alertLevel": "5"
-         }).then(() => {
-            // Data saved successfully!
-            console.log("alerts saved");
-            // do this last redirect to dashboard page
-            //this.$router.push('dashboard');
-         })
-            .catch((error) => {
-               // The write failed...
-               console.log("error alerts not saved" + error);
-            });
 
       }
 
