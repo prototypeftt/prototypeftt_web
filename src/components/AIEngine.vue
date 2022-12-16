@@ -67,7 +67,7 @@ export default {
         assetList: [],
         cryptoList: [],
         stockList: [],
-        fields: ['Asset Type', 'Asset ID', 'Asset Name','Last Updated','Close Price','Predicted Price','Movement Prediction', 'Movement Size' , ' View Report'],
+        fields: ['Asset Type', 'Asset ID', 'Asset Name','Last Updated','Close Price','Predicted Price','Movement Prediction', 'Movement Size %' , ' View Report'],
       }
    },
    computed: {

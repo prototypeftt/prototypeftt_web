@@ -20,6 +20,29 @@
          </form>
 
       </b-modal>
+
+      <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
+      Dismiss Alert!
+         <h4 class="alert-heading">Price Alert Triggered!</h4>
+
+      <hr>
+      <p class="mb-0">
+         <b-table striped hover :items="alertTriggers"></b-table>
+      </p>
+      </b-alert>
+
+      <!-- No alerts setup - prompt setup-->
+
+      <b-alert
+      v-model="showSetupAlertPrompt"
+      dismissible
+      variant="warning"
+      > Dismiss Alert!
+         <p><b-button variant="danger" href="./alerts">Click Here</b-button> to Setup Alerts to warn you of large % movements in price.</p>
+         
+      </b-alert>
+      
+
    </div>
 
 </template>
@@ -55,6 +78,12 @@ export default {
         institutionList: [],
         assetList:[],
         createAlerts: false,
+        showDismissibleAlert: false,
+        alerts: [],
+        alertTriggers:[],
+        showSetupAlertPrompt: true,
+        dismissSecs: 10,
+        dismissCountDown: 0,
       }
    },
    computed: {
@@ -116,6 +145,26 @@ export default {
             });
 
          });
+      },checkAlerts() {
+         console.log("check alerts");
+         this.alerts.forEach(alert => {
+            this.assetList.forEach(asset => {
+               if (asset.assetId == alert.assetId) {
+                  console.log("Alert Matched to Asset");
+                  if (asset.assetMovement > alert.alertLevel){
+                     this.alertTriggers.push(alert);
+                     this.showDismissibleAlert=true;
+                     this.showSetupAlertPrompt=false;
+                     console.log("higher");
+                  }
+               }
+            })
+         })
+      },countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+      },
+      showAlert() {
+        this.dismissCountDown = this.dismissSecs
       }
 
    },
@@ -151,6 +200,7 @@ export default {
          console.error(error);
       });
 
+      // Get list of institutions
       dbref = ref(database, 'institutions/');
       get(child(dbref, `/`)).then((snapshot) => {
          if (snapshot.exists()) {
@@ -167,6 +217,8 @@ export default {
       }).catch((error) => {
          console.error(error);
       });
+
+      // Get list of assets
 
       dbref = ref(database,'assets/');
 
@@ -206,7 +258,36 @@ export default {
 
             }).catch((error) => {
             console.error(error);
-         });         
+         });     
+         
+
+         // Get the list of alerts that have been setup
+
+         dbref = ref(database, 'alerts/');
+         get(child(dbref, `${auth.currentUser.uid}/`)).then((snapshot) => {
+            if (snapshot.exists()) {
+               console.log("alerts exist");
+
+               snapshot.forEach( item => {
+                  
+                  if (item.val().alertLevel != "0"){
+                     this.alerts.push(item.val());
+                     this.showSetupAlertPrompt=false;
+                  }
+                  
+               }); // Adds each alert to an array
+
+               this.checkAlerts(); // check if alerts have been triggered by asset movement
+
+            } else {
+               console.log("No alerts exist");  // show prompt
+               //this.writeUserData(auth.currentUser.uid);
+               this.showSetupAlertPrompt = true;
+            }
+         }).catch((error) => {
+            console.error(error);
+         });
+         
 
    },
 };
@@ -215,6 +296,6 @@ export default {
 
 
 
-<style scoped>
+<style>
 
 </style>
