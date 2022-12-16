@@ -41,8 +41,7 @@
          <p><b-button variant="danger" href="./alerts">Click Here</b-button> to Setup Alerts to warn you of large % movements in price.</p>
          
       </b-alert>
-
-
+      
 
    </div>
 
