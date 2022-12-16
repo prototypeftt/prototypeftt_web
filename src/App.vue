@@ -6,6 +6,7 @@
         <b-navbar-nav>
           <b-nav-item v-if="!loggedIn" to="/">Home</b-nav-item> 
           <b-nav-item v-if="!loggedIn" to="/about">About</b-nav-item> 
+          <b-nav-item v-if="loggedIn" to="/dashboard">Dashboard</b-nav-item>
           <b-nav-item v-if="loggedIn" to="/clients">Clients</b-nav-item>
           <b-nav-item v-if="loggedIn" to="/aiengine">AI Engine</b-nav-item>
           <b-nav-item v-if="loggedIn" to="/alerts">Alerts</b-nav-item>

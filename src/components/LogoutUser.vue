@@ -23,8 +23,20 @@ export default {
   name: 'LogoutUser',
   props: {
   }, methods: {
+
+    signOut(){
+      signOut(auth).then(() => {
+      console.log("logged out");
+    }).catch((error) => {
+      // An error happened.
+      console.log("error:" + error);
+    })
+    }
     
 
+  },   mounted() {
+    console.log("logout mounted");
+    this.signOut();
   }
 };
 
