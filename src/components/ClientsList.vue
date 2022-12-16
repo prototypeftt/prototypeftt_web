@@ -21,9 +21,9 @@
                   {{item}}
                   </th></tr>
                   <tr v-for="(value, key, index) in item.cryptos" :key="`crypto-${ key }-${ index }`">
-                     <td>{{value.child("cryptoId").val()}}</td>
-                     <td>{{value.child("cryptoName").val()}}</td>
-                     <td>{{value.child("price").val()}}</td>
+                     <td>{{value.child("assetId").val()}}</td>
+                     <td>{{value.child("assetName").val()}}</td>
+                     <td>{{value.child("closePrice").val()}}</td>
                      <td>{{value.child("qty").val()}}</td>                  
                   </tr>
 
@@ -35,9 +35,9 @@
                   {{item}}
                   </th></tr>
                   <tr v-for="(value, key, index) in item.shares" :key="`shares-${ key }-${ index }`">  
-                     <td>{{value.child("shareId").val()}}</td>
-                     <td>{{value.child("shareName").val()}}</td>
-                     <td>{{value.child("price").val()}}</td>
+                     <td>{{value.child("assetId").val()}}</td>
+                     <td>{{value.child("assetName").val()}}</td>
+                     <td>{{value.child("closePrice").val()}}</td>
                      <td>{{value.child("qty").val()}}</td>
                   </tr>
                </table>
@@ -70,7 +70,7 @@ export default {
       return {
         clientList: [],
         items: [],
-        fields: ['uuid','broker','name','direct','crypto','shares'],
+        fields: ['uuid','broker','client name','direct','crypto','shares'],
         assetFields: ['ID','Name','Price','Qty'],
         cryptos: [],
         shares: []
@@ -94,14 +94,16 @@ export default {
                get(child(dbref, item)).then((snapshot) => {
                if (snapshot.exists()) {
 
-                  snapshot.child("cryptos").forEach( item => {this.cryptos.push(item);});
+                  // snapshot.child("cryptos").forEach( item => {this.cryptos.push(item);});
+                  snapshot.child("CRYPTO").forEach( item => {this.cryptos.push(item);});
                   
                   //var cryptoField='';
 
                   //this.crypto.forEach(item => {cryptoField=item.val()});
 
                   //console.log("crypto:" + this.cryptos.length);
-                  snapshot.child("shares").forEach( item => {this.shares.push(item)});
+                  //snapshot.child("shares").forEach( item => {this.shares.push(item)});
+                  snapshot.child("STOCK").forEach( item => {this.shares.push(item)});
                   //console.log("shares length :" + this.shares.length);
 
                   this.items.push({
