@@ -1,14 +1,31 @@
 <template>
+  <div>
 
+    <b-collapse v-model="visibleChatIcon">
+  <div class="chatbox-icon  " id="maintel-chat-icon">
+    <div class="mb-2">
+      <b-button @click="showChatBot()"> Chat 
+        <b-avatar variant="info" size="lg">
+        </b-avatar>
+      </b-button>
+    </div>  
+  </div>
+</b-collapse>
+
+
+
+  <b-collapse visible id="collapse-1" class="mt-2" v-model="visible">
   <div class="chatbox" id="maintel-chat">
   <div class="chatbox-header">
+    
     <div class="chatbox-agent">
       <span>FTT Chatbot</span>
     </div>
     <div class="chatbox-close">
-      <span>x</span>
+      <span><b-button @click="toggleChatBot()"  size="sm">X</b-button> </span>
     </div>
   </div>
+
   <ul class="chatbox-conversation" id="conversation">
     <li class="chatbox-conversation__message" :key="message.id" v-for="message in conversation" v-bind:class="'chatbox-conversation__message--' + message.type">
       <div class="chatbox-message__sender">
@@ -31,9 +48,12 @@
     <!-- <input class="chatbox-message" v-model="message">
     <button type="button" class="chatbox-btn chatbox-btn--send" @click="addMessage()">Send</button>-->
   </form>
-</div>
 
-  
+</div>
+</b-collapse>
+
+
+</div>
 </template>
 
 <script>
@@ -70,6 +90,8 @@ export default {
         message: '',
         conversation: [],
         options: [],
+        visible: false,
+        visibleChatIcon: true,
       }}, 
       
   methods: {
@@ -96,25 +118,13 @@ export default {
 
     }, startChatSession: function() {
           // Start a new chat session for a guest user
+          this.conversation = [];
     this.axios.post('https://us-central1-prototypeftt-cca12.cloudfunctions.net/api/chatbot/newsession', {
             "senderUuid" : "guest",
             "selection" : "",
             }).then(response => (this.updateMessage(response)))
 
-            /*.then(function (response) {
-           
-            //console.log("api call success " + JSON.stringify(response.data.message));
-            console.log("api call success " + response.data.message);
-            //this.updateMessage(response.data.message);
-            //console.log("this message:"+this.message);
-            //this.message = response.data.message;
-            Chatbot.trigger('sendMessage', response.data.message);
-            //this.conversation.push(response);
-
-            })*/
-
             .catch(function (error) {
-            //this.sendingReply = false;
 
             console.log("api call failure " + error);
 
@@ -144,8 +154,20 @@ export default {
             "senderUuid" : "guest",
             "selection" : option,
             }).then(response => (this.updateMessage(response)))
+    },toggleChatBot(){
+      this.visible = !this.visible;
+      this.visibleChatIcon = !this.visibleChatIcon;
+
+      this.axios.post('https://us-central1-prototypeftt-cca12.cloudfunctions.net/api/chatbot/endsession', {
+            "senderUuid" : "guest",
+            }).then(response => (console.log("chat session ended" + response)))
+      //console.log("toggle chatbot"+ this.visible);
+      
+    }, showChatBot(){
+      this.visible = !this.visible;
+      this.visibleChatIcon = !this.visibleChatIcon;
+      this.startChatSession();
     }
-    
 
   }, 
   mounted(){
@@ -179,6 +201,15 @@ export default {
   border-radius: 5px 5px 0 0;
   width: 260px;
   height: 400px;
+  overflow: hidden;
+}
+
+.chatbox-icon {
+
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+  border-radius: 5px 5px 0 0;
   overflow: hidden;
 }
 
