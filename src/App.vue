@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#">FTT Broker Portal</b-navbar-brand>
+      <b-navbar-brand href="./dashboard">FTT Broker Portal</b-navbar-brand>
       <nav>
         <b-navbar-nav>
           <b-nav-item v-if="!loggedIn" to="/">Home</b-nav-item> 
@@ -15,7 +15,7 @@
             <b-dropdown-item href="#">Crypto</b-dropdown-item>
           </b-nav-item-dropdown>        -->  
           <b-nav-item-dropdown v-if="loggedIn" text="User" right>
-            <b-dropdown-item href="settings">Settings</b-dropdown-item>
+            <!--<b-dropdown-item href="settings">Settings</b-dropdown-item> -->
             <b-dropdown-item to="logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
