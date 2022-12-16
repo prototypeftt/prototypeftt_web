@@ -185,8 +185,6 @@ export default {
          }).then(() => {
             // Data saved successfully!
             console.log("client data saved async");
-            // do this last redirect to dashboard page
-            //this.$router.push('dashboard');
          })
             .catch((error) => {
                // The write failed...
